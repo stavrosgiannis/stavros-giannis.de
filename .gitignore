@@ -27,3 +27,6 @@ yarn-error.log*
 
 Server/node_modules
 Server/config.js
+.vs/VSWorkspaceState.json
+.vs/stavros-giannis.de/v17/.wsuo
+.vs/stavros-giannis.de/v17/DocumentLayout.json
