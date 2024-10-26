@@ -11,27 +11,16 @@ function AboutCard() {
             Hi Everyone, I am <span className="purple">Stavros Giannis </span>
             from <span className="purple">Düsseldorf, Germany.</span>
             <br />
-            I have a bachelor degree in Cyber Security Management (B.Sci.) from the University of Applied Sciences Niederrhein.
+            I have a Bachelor's degree in Cyber Security Management (B.Sc.) from the University of Applied Sciences Niederrhein.
             <br />
-            I am currently employed as a software engineer at KPMG Global.
+            I'm currently working as a software engineer at KPMG Global.
             <br />
             <br />
-            Apart from coding, some other activities that I love to do!
           </p>
-          <ul>
-            <li className="about-activity">
-              <ImPointRight /> Playing Games
-            </li>
-            <li className="about-activity">
-              <ImPointRight /> Writing Tech Blogs
-            </li>
-            <li className="about-activity">
-              <ImPointRight /> Travelling
-            </li>
-          </ul>
-
+          
           <p style={{ color: "rgb(155 126 172)" }}>
-            "Strive to build things that make a difference!"{" "}
+            "Every wireless signal is a potential attack vector, waiting to be
+            exploited by those with the right knowledge."{" "}
           </p>
           <footer className="blockquote-footer">Stavros Giannis</footer>
         </blockquote>
