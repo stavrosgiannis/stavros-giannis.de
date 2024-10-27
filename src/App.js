@@ -32,17 +32,19 @@ function App() {
     <Router>
       <Preloader load={load} />
       <div className="App" id={load ? "no-scroll" : "scroll"}>
-        <Navbar />
-        <ScrollToTop />
+      <Navbar />
+      <ScrollToTop />
+      <main className="content-wrapper">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/project" element={<Projects />} />
           <Route path="/about" element={<About />} />
           <Route path="/resume" element={<Resume />} />
-          <Route path="*" element={<Navigate to="/"/>} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-        <Footer />
-      </div>
+      </main>
+      <Footer />
+    </div>
     </Router>
   );
 }
