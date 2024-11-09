@@ -18,4 +18,4 @@ function Type() {
   );
 }
 
-export default Type;
+export default React.memo(Type);

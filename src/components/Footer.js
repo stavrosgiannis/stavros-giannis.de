@@ -1,14 +1,10 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import {
-  AiFillGithub,
-  AiFillInstagram
-} from "react-icons/ai";
+import { AiFillGithub, AiFillInstagram } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
 
 function Footer() {
-  let date = new Date();
-  let year = date.getFullYear();
+  let year = new Date().getFullYear();
   return (
     <Container fluid className="footer">
       <Row>
@@ -24,38 +20,29 @@ function Footer() {
               <a
                 href="https://github.com/stavrosgiannis"
                 style={{ color: "white" }}
-                target="_blank" 
+                target="_blank"
                 rel="noopener noreferrer"
               >
                 <AiFillGithub />
               </a>
             </li>
-            {/* <li className="social-icons">
-              <a
-                href="https://twitter.com/Soumyajit4419"
-                style={{ color: "white" }}
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                <AiOutlineTwitter />
-              </a>
-            </li>
-             */
+
             <li className="social-icons">
               <a
                 href="https://www.instagram.com/stavi.g"
                 style={{ color: "white" }}
-                target="_blank" 
+                target="_blank"
                 rel="noopener noreferrer"
               >
                 <AiFillInstagram />
               </a>
-            </li>}
+            </li>
+
             <li className="social-icons">
               <a
                 href="https://www.linkedin.com/in/stavros-giannis-76818719b/"
                 style={{ color: "white" }}
-                target="_blank" 
+                target="_blank"
                 rel="noopener noreferrer"
               >
                 <FaLinkedinIn />
@@ -68,4 +55,4 @@ function Footer() {
   );
 }
 
-export default Footer;
+export default React.memo(Footer);

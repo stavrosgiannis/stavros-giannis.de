@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
@@ -6,47 +6,42 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { Link, useNavigate } from "react-router-dom";
-import { CgGitFork } from "react-icons/cg";
-import { ImBlog } from "react-icons/im";
-import {
-  AiFillStar,
-  AiOutlineHome,
-  AiOutlineFundProjectionScreen,
-  AiOutlineUser,
-} from "react-icons/ai";
-
+import { AiOutlineHome, AiOutlineFundProjectionScreen, AiOutlineUser } from "react-icons/ai";
 import { CgFileDocument } from "react-icons/cg";
 
 function NavBar() {
-  const [expand, updateExpanded] = useState(false);
-  const [navColour, updateNavbar] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [navColour, setNavColour] = useState(false);
   const [showAccessModal, setShowAccessModal] = useState(false);
   const [accessCode, setAccessCode] = useState("");
   const navigate = useNavigate();
 
-  function scrollHandler() {
+  const handleScroll = useCallback(() => {
     if (window.scrollY >= 20) {
-      updateNavbar(true);
+      setNavColour(true);
     } else {
-      updateNavbar(false);
+      setNavColour(false);
     }
-  }
+  }, []);
 
-  window.addEventListener("scroll", scrollHandler);
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
 
-  function handleAccessRequest() {
-    if (accessCode === "WeWantYou") { // Replace with your actual access code
+  const handleAccessRequest = () => {
+    if (accessCode === "WeWantYou") {
       setShowAccessModal(false);
       navigate("/resume");
     } else {
       alert("Access denied. Incorrect code.");
     }
-  }
+  };
 
   return (
     <>
       <Navbar
-        expanded={expand}
+        expanded={expanded}
         fixed="top"
         expand="md"
         className={navColour ? "sticky" : "navbar"}
@@ -54,9 +49,7 @@ function NavBar() {
         <Container>
           <Navbar.Toggle
             aria-controls="responsive-navbar-nav"
-            onClick={() => {
-              updateExpanded(expand ? false : "expanded");
-            }}
+            onClick={() => setExpanded(!expanded)}
           >
             <span></span>
             <span></span>
@@ -65,39 +58,31 @@ function NavBar() {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="ms-auto" defaultActiveKey="#home">
               <Nav.Item>
-                <Nav.Link as={Link} to="/" onClick={() => updateExpanded(false)}>
-                  <AiOutlineHome style={{ marginBottom: "2px" }} /> Home
+                <Nav.Link as={Link} to="/" onClick={() => setExpanded(false)}>
+                  <AiOutlineHome /> Home
                 </Nav.Link>
               </Nav.Item>
 
               <Nav.Item>
-                <Nav.Link
-                  as={Link}
-                  to="/about"
-                  onClick={() => updateExpanded(false)}
-                >
-                  <AiOutlineUser style={{ marginBottom: "2px" }} /> About
+                <Nav.Link as={Link} to="/about" onClick={() => setExpanded(false)}>
+                  <AiOutlineUser /> About
                 </Nav.Link>
               </Nav.Item>
 
               <Nav.Item>
-                <Nav.Link
-                  as={Link}
-                  to="/project"
-                  onClick={() => updateExpanded(false)}
-                >
-                  <AiOutlineFundProjectionScreen style={{ marginBottom: "2px" }} /> Projects
+                <Nav.Link as={Link} to="/project" onClick={() => setExpanded(false)}>
+                  <AiOutlineFundProjectionScreen /> Projects
                 </Nav.Link>
               </Nav.Item>
 
               <Nav.Item>
                 <Nav.Link
                   onClick={() => {
-                    updateExpanded(false);
+                    setExpanded(false);
                     setShowAccessModal(true);
                   }}
                 >
-                  <CgFileDocument style={{ marginBottom: "2px" }} /> Resume
+                  <CgFileDocument /> Resume
                 </Nav.Link>
               </Nav.Item>
             </Nav>
@@ -136,4 +121,4 @@ function NavBar() {
   );
 }
 
-export default NavBar;
+export default React.memo(NavBar);
