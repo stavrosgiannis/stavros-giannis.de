@@ -1,31 +1,41 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { usePortfolio } from "../../context/PortfolioContext";
+import { SectionLayout } from "../../components/layout";
 import ProjectCard from "./ProjectCards";
-import Particle from "../Particle";
 import chatify from "../../Assets/Projects/chatify.png";
 
+/**
+ * Projects component - Displays featured projects
+ * NOTE: This component is deprecated. Use src/pages/Projects.js instead for full project list
+ * This component shows a single featured project as a demo
+ */
 function Projects() {
+  const { projects } = usePortfolio();
+
   return (
-    <Container fluid className="project-section">
-      <Particle />
+    <SectionLayout className="project-section" showParticles={true}>
       <Container>
         <h1 className="project-heading">
           My Recent <strong className="purple">Works</strong>
         </h1>
         <p>Here are a few projects I've worked on recently.</p>
         <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={chatify}
-              isBlog={false}
-              title="WLAN-CSI AI"
-              description="An AI project focusing on WLAN Channel State Information."
-              ghLink="#"
-            />
-          </Col>
+          {projects.slice(0, 1).map((project) => (
+            <Col md={4} className="project-card" key={project.id}>
+              <ProjectCard
+                imgPath={chatify}
+                isBlog={project.isBlog || false}
+                title={project.title}
+                description={project.description}
+                ghLink={project.github}
+                demoLink={project.demo}
+              />
+            </Col>
+          ))}
         </Row>
       </Container>
-    </Container>
+    </SectionLayout>
   );
 }
 

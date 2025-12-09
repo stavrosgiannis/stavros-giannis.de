@@ -1,12 +1,17 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { SectionLayout } from "../../components/layout";
 import myImg from "../../Assets/avatar.svg";
 import Tilt from "react-parallax-tilt";
 
+/**
+ * Home introduction section
+ * Displays personal introduction text and avatar image with tilt effect
+ */
 function Home2() {
   return (
-    <Container fluid className="home-about-section" id="about">
+    <SectionLayout className="home-about-section" id="about" showParticles={false}>
       <Container>
         <Row>
           <Col md={8} className="home-about-description">
@@ -28,7 +33,7 @@ function Home2() {
                 <b className="purple">Technologies and Products </b> and
                 also in areas related to{" "}
                 <b className="purple">
-                AI, Cybersecurity, and Blockchain.
+                  AI, Cybersecurity, and Blockchain.
                 </b>
               </i>
               <br />
@@ -59,7 +64,7 @@ function Home2() {
           </Col>
         </Row>
       </Container>
-    </Container>
+    </SectionLayout>
   );
 }
 

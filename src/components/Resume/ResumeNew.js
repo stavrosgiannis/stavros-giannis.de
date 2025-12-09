@@ -1,13 +1,19 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { Container, Row } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import Particle from "../Particle";
+import { SectionLayout } from "../../components/layout";
 import pdf from "../../Assets/Lebenslauf_Giannis_Stavros.pdf";
 import { AiOutlineDownload } from "react-icons/ai";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
+/**
+ * Resume/CV display component
+ * Uses react-pdf to render PDF with responsive scaling
+ * Optimized with useCallback and useMemo for performance
+ */
 function ResumeNew() {
   const [width, setWidth] = useState(window.innerWidth);
 
@@ -21,9 +27,7 @@ function ResumeNew() {
   const scale = useMemo(() => (width > 786 ? 1.7 : 0.6), [width]);
 
   return (
-    <Container fluid className="resume-section">
-      <Particle />
-
+    <SectionLayout className="resume-section" showParticles={true}>
       <Row className="resume">
         <Document file={pdf} className="d-flex justify-content-center">
           <Page pageNumber={1} scale={scale} />
@@ -31,12 +35,12 @@ function ResumeNew() {
       </Row>
 
       <Row style={{ justifyContent: "center", position: "relative" }}>
-        <Button variant="primary" href={pdf} target="_blank">
+        <Button variant="primary" href={pdf} target="_blank" rel="noopener noreferrer">
           <AiOutlineDownload />
           &nbsp;Download CV
         </Button>
       </Row>
-    </Container>
+    </SectionLayout>
   );
 }
 

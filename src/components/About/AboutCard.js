@@ -1,19 +1,25 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
-import { ImPointRight } from "react-icons/im";
+import { usePortfolio } from "../../context/PortfolioContext";
 
+/**
+ * About card component
+ * Displays personal information and quote from context
+ */
 function AboutCard() {
+  const { portfolio } = usePortfolio();
+
   return (
     <Card className="quote-card-view">
       <Card.Body>
         <blockquote className="blockquote mb-0">
           <p style={{ textAlign: "justify" }}>
-            Hi Everyone, I am <span className="purple">Stavros Giannis </span>
-            from <span className="purple">Düsseldorf, Germany.</span>
+            Hi Everyone, I am <span className="purple">{portfolio.name} </span>
+            from <span className="purple">{portfolio.location}</span>
             <br />
-            I have a Bachelor's degree in Cyber Security Management (B.Sc.) from the University of Applied Sciences Niederrhein.
+            {portfolio.education}
             <br />
-            I'm currently working as a software engineer at KPMG Global.
+            {portfolio.currentRole}
             <br />
             <br />
           </p>
@@ -22,11 +28,11 @@ function AboutCard() {
             "Every wireless signal is a potential attack vector, waiting to be
             exploited by those with the right knowledge."{" "}
           </p>
-          <footer className="blockquote-footer">Stavros Giannis</footer>
+          <footer className="blockquote-footer">{portfolio.name}</footer>
         </blockquote>
       </Card.Body>
     </Card>
   );
 }
 
-export default AboutCard;
+export default React.memo(AboutCard);
