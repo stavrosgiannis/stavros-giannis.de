@@ -26,7 +26,7 @@ function App() {
       <div className="App">
         <Navbar />
         <ScrollToTop />
-        <div className="content">
+        <main className="content">
           <Suspense fallback={<Preloader load={true} />}>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -36,7 +36,7 @@ function App() {
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </Suspense>
-        </div>
+        </main>
         <Footer />
       </div>
     </Router>

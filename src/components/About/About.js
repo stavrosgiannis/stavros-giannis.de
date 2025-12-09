@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import Particle from "../Particle";
 import Github from "./Github";
 import Techstack from "./Techstack";
@@ -31,7 +32,12 @@ function About() {
             style={{ paddingTop: "120px", paddingBottom: "50px" }}
             className="about-img"
           >
-            <img src={laptopImg} alt="about" className="img-fluid" />
+            <LazyLoadImage
+              src={laptopImg}
+              alt="about"
+              className="img-fluid"
+              effect="blur"
+            />
           </Col>
         </Row>
         <h1 className="project-heading">
@@ -51,4 +57,4 @@ function About() {
   );
 }
 
-export default About;
+export default React.memo(About);

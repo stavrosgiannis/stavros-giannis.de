@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Container, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Particle from "../Particle";
@@ -11,11 +11,14 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 function ResumeNew() {
   const [width, setWidth] = useState(window.innerWidth);
 
+  const handleResize = useCallback(() => setWidth(window.innerWidth), []);
+
   useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [handleResize]);
+
+  const scale = useMemo(() => (width > 786 ? 1.7 : 0.6), [width]);
 
   return (
     <Container fluid className="resume-section">
@@ -23,7 +26,7 @@ function ResumeNew() {
 
       <Row className="resume">
         <Document file={pdf} className="d-flex justify-content-center">
-          <Page pageNumber={1} scale={width > 786 ? 1.7 : 0.6} />
+          <Page pageNumber={1} scale={scale} />
         </Document>
       </Row>
 

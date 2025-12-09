@@ -1,15 +1,23 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import Particles from "react-tsparticles";
 
 function Particle() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const particlesParams = useMemo(
     () => ({
       particles: {
         number: {
-          value: 60,
+          value: isMobile ? 30 : 60,
           density: {
             enable: true,
-            value_area: 800,
+            value_area: isMobile ? 1200 : 800,
           },
         },
         line_linked: {
@@ -18,7 +26,7 @@ function Particle() {
         },
         move: {
           direction: "right",
-          speed: 0.05,
+          speed: isMobile ? 0.02 : 0.05,
         },
         size: {
           value: 1,
@@ -46,7 +54,7 @@ function Particle() {
       },
       retina_detect: true,
     }),
-    []
+    [isMobile]
   );
 
   return <Particles id="tsparticles" params={particlesParams} />;
