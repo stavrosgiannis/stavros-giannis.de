@@ -52,10 +52,6 @@ function NavBar() {
     setAccessCode("");
   }, []);
 
-  const handleToggleNav = useCallback(() => {
-    setExpanded(prev => !prev);
-  }, []);
-
   const handleNavClick = useCallback(() => {
     setExpanded(false);
   }, []);

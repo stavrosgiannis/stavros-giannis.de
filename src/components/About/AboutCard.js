@@ -17,9 +17,11 @@ function AboutCard() {
             Hi Everyone, I am <span className="purple">{portfolio.name} </span>
             from <span className="purple">{portfolio.location}</span>
             <br />
-            {portfolio.education}
+            I have a <span className="purple">{portfolio.education.degree}</span> in{" "}
+            <span className="purple">{portfolio.education.field}</span> from{" "}
+            <span className="purple">{portfolio.education.university}</span>
             <br />
-            {portfolio.currentRole}
+            I'm currently {portfolio.currentRole}
             <br />
             <br />
           </p>
