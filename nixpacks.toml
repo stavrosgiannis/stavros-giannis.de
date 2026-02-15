@@ -1,0 +1,11 @@
+[build]
+# Build the React production app and place in build/ folder
+cmds = ["npm run build"]
+
+[start]
+# Run the Express server with cache headers and gzip compression
+cmd = "node server.js"
+
+[env]
+# Set Node environment to production for optimization
+NODE_ENV = "production"

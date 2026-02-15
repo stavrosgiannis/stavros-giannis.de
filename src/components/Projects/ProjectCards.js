@@ -4,11 +4,22 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { CgWebsite } from "react-icons/cg";
 import { BsGithub } from "react-icons/bs";
+import OptimizedImage from "../OptimizedImage";
 
 function ProjectCards({ imgPath, title, description, ghLink, demoLink, isBlog }) {
   return (
     <Card className="project-card-view">
-      <Card.Img variant="top" src={imgPath} alt="card-img" />
+      <div style={{ width: "100%", overflow: "hidden", backgroundColor: "#f5f5f5" }}>
+        <OptimizedImage
+          src={imgPath}
+          alt={title}
+          loading="lazy"
+          className="card-img-top"
+          width="100%"
+          height="200"
+          style={{ objectFit: "cover", display: "block" }}
+        />
+      </div>
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Text style={{ textAlign: "justify" }}>

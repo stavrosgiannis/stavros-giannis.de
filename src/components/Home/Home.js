@@ -5,7 +5,7 @@ import { SectionLayout } from "../../components/layout";
 import homeLogo from "../../Assets/home-main.svg";
 import Home2 from "./Home2";
 import Type from "./Type";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import OptimizedImage from "../OptimizedImage";
 
 function Home() {
   const { portfolio } = usePortfolio();
@@ -34,10 +34,10 @@ function Home() {
             </Col>
 
             <Col md={5} style={{ paddingBottom: 20 }}>
-              <LazyLoadImage
+              <OptimizedImage
                 src={homeLogo}
                 alt="home pic"
-                effect="blur"
+                loading="eager"
                 className="img-fluid"
               />
             </Col>

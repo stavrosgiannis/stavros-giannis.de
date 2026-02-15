@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import OptimizedImage from "../OptimizedImage";
 import { SectionLayout } from "../../components/layout";
 import myImg from "../../Assets/avatar.svg";
 import Tilt from "react-parallax-tilt";
@@ -54,11 +54,13 @@ function Home2() {
           </Col>
           <Col md={4} className="myAvtar">
             <Tilt>
-              <LazyLoadImage 
-                src={myImg} 
+              <OptimizedImage
+                src={myImg}
                 alt="avatar"
+                loading="lazy"
                 className="img-fluid"
-                effect="blur"
+                width="300"
+                height="300"
               />
             </Tilt>
           </Col>
