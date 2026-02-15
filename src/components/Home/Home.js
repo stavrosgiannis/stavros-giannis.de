@@ -2,10 +2,8 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { usePortfolio } from "../../context/PortfolioContext";
 import { SectionLayout } from "../../components/layout";
-import homeLogo from "../../Assets/home-main.svg";
 import Home2 from "./Home2";
 import Type from "./Type";
-import OptimizedImage from "../OptimizedImage";
 
 function Home() {
   const { portfolio } = usePortfolio();
@@ -34,10 +32,11 @@ function Home() {
             </Col>
 
             <Col md={5} style={{ paddingBottom: 20 }}>
-              <OptimizedImage
-                src={homeLogo}
+              <img
+                src={`${process.env.PUBLIC_URL}/home-main.svg`}
                 alt="home pic"
                 loading="eager"
+                fetchpriority="high"
                 className="img-fluid"
                 width="450"
                 height="450"
