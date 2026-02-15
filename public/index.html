@@ -11,6 +11,16 @@
   <title>Stavros Giannis | Portfolio</title>
   <meta name="description" content="Self Developed personal website build with React.js">
 
+  <!-- Preload LCP image for faster discovery -->
+  <link rel="preload" href="%PUBLIC_URL%/home-main.svg" as="image" type="image/svg+xml" fetchpriority="high">
+
+  <!-- Preload Google Fonts to avoid render-blocking -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap"></noscript>
+
   <!-- Google / Search Engine Tags -->
   <meta itemprop="name" content="S0umyajit | Portfolio">
   <meta itemprop="description" content="Self Developed personal website build with React.js">

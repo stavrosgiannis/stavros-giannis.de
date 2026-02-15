@@ -39,6 +39,8 @@ function Home() {
                 alt="home pic"
                 loading="eager"
                 className="img-fluid"
+                width="450"
+                height="450"
               />
             </Col>
           </Row>
