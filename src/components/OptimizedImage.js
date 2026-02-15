@@ -20,7 +20,6 @@ function OptimizedImage({
   style,
 }) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [hasError, setHasError] = useState(false);
 
   const handleLoad = useCallback(() => {
     setIsLoaded(true);
@@ -28,7 +27,6 @@ function OptimizedImage({
   }, [onLoad]);
 
   const handleError = useCallback(() => {
-    setHasError(true);
     onError?.();
   }, [onError]);
 

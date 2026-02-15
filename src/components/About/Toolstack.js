@@ -1,11 +1,7 @@
 import React, { useMemo } from "react";
 import { Col, Row } from "react-bootstrap";
 import {
-  SiVisualstudiocode,
   SiPostman,
-  SiSlack,
-  SiVercel,
-  SiMacos,
   SiVisualstudio,
   SiWindows11,
   SiLinux,

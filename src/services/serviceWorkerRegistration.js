@@ -33,7 +33,9 @@ export function unregisterServiceWorker() {
   }
 }
 
-export default {
+const serviceWorkerAPI = {
   registerServiceWorker,
   unregisterServiceWorker,
 };
+
+export default serviceWorkerAPI;

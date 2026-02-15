@@ -2,26 +2,19 @@ import React, { useMemo } from "react";
 import { Col, Row } from "react-bootstrap";
 import { CgCPlusPlus } from "react-icons/cg";
 import {
-  DiJavascript1,
-  DiReact,
   DiNodejs,
   DiMongodb,
   DiPython,
-  DiGit,
-  DiJava,
   DiAngularSimple,
 } from "react-icons/di";
 import {
   SiRedis,
   SiFirebase,
-  SiNextdotjs,
-  SiSolidity,
   SiPostgresql,
   SiDotnet,
   SiTypescript,
   SiCsharp,
 } from "react-icons/si";
-import { TbBrandGolang } from "react-icons/tb";
 
 const iconMap = {
   CgCPlusPlus,
