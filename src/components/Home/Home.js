@@ -14,7 +14,7 @@ function Home() {
         <Container className="home-content">
           <Row>
             <Col md={7} className="home-header">
-              <h1 style={{ paddingBottom: 15 }} className="heading">
+              <h1 className="heading">
                 Hi There!{" "}
                 <span className="wave" role="img" aria-labelledby="wave">
                   👋🏻
@@ -26,12 +26,12 @@ function Home() {
                 <strong className="main-name"> {portfolio.name}</strong>
               </h1>
 
-              <div style={{ padding: 50, textAlign: "left" }}>
+              <div className="home-typewriter">
                 <Type />
               </div>
             </Col>
 
-            <Col md={5} style={{ paddingBottom: 20 }}>
+            <Col md={5} className="home-hero-img">
               <img
                 src={`${process.env.PUBLIC_URL}/home-main.svg`}
                 alt="home pic"

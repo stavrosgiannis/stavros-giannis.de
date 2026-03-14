@@ -70,6 +70,13 @@ function NavBar() {
         className={navColour ? "sticky" : "navbar"}
       >
         <Container>
+          <Navbar.Brand as={Link} to="/" className="navbar-brand">
+            <span style={{ fontWeight: 700, fontSize: "1.2em" }}>
+              {"< "}
+              <span style={{ color: "#cd5ff8" }}>SG</span>
+              {" />"}
+            </span>
+          </Navbar.Brand>
           <Navbar.Toggle
             aria-controls="responsive-navbar-nav"
             onClick={() => setExpanded(!expanded)}
