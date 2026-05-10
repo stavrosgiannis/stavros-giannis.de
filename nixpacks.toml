@@ -6,6 +6,10 @@ cmds = ["npm run build"]
 # Run the Express server with cache headers and gzip compression
 cmd = "node server.js"
 
+[phases.setup]
+# Coolify/Nixpacks defaults to Node 18, but current dependency overrides require Node 20+.
+nixPkgs = ["nodejs_22", "npm-10_x"]
+
 [env]
 # Set Node environment to production for optimization
 NODE_ENV = "production"
