@@ -109,30 +109,6 @@ export const copyToClipboard = async (text) => {
 };
 
 /**
- * Validate email address
- * @param {string} email - Email to validate
- * @returns {boolean} True if valid email
- */
-export const validateEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
-
-/**
- * Validate URL
- * @param {string} url - URL to validate
- * @returns {boolean} True if valid URL
- */
-export const validateURL = (url) => {
-  try {
-    new URL(url);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
-/**
  * Get initials from name
  * @param {string} name - Full name
  * @returns {string} Initials (e.g., "SG" for "Stavros Giannis")
@@ -141,6 +117,7 @@ export const getInitials = (name) => {
   if (!name) return "";
   return name
     .split(" ")
+    .filter(Boolean)
     .map((part) => part[0])
     .join("")
     .toUpperCase();
@@ -244,18 +221,7 @@ export const shuffleArray = (array) => {
  * @returns {*} Cloned object
  */
 export const deepClone = (obj) => {
-  if (obj === null || typeof obj !== "object") return obj;
-  if (obj instanceof Date) return new Date(obj.getTime());
-  if (obj instanceof Array) return obj.map((item) => deepClone(item));
-  if (obj instanceof Object) {
-    const cloned = {};
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        cloned[key] = deepClone(obj[key]);
-      }
-    }
-    return cloned;
-  }
+  return structuredClone(obj);
 };
 
 /**
@@ -274,24 +240,3 @@ export const groupBy = (array, key) => {
   }, {});
 };
 
-export default {
-  formatDate,
-  formatDateShort,
-  debounce,
-  throttle,
-  isInViewport,
-  smoothScroll,
-  copyToClipboard,
-  validateEmail,
-  validateURL,
-  getInitials,
-  truncateText,
-  getReadingTime,
-  formatNumber,
-  sleep,
-  retryAsync,
-  getRandomItem,
-  shuffleArray,
-  deepClone,
-  groupBy,
-};

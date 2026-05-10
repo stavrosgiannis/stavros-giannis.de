@@ -27,8 +27,7 @@ function AboutCard() {
           </p>
           
           <p style={{ color: "rgb(155 126 172)" }}>
-            "Every wireless signal is a potential attack vector, waiting to be
-            exploited by those with the right knowledge."{" "}
+            "{portfolio.tagline}"{" "}
           </p>
           <footer className="blockquote-footer">{portfolio.name}</footer>
         </blockquote>

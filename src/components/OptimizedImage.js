@@ -2,6 +2,19 @@ import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
 
 /**
+ * Generate a WebP src from the given image source.
+ * Returns the original src unchanged for SVGs and any format that is not
+ * png/jpg/jpeg, so that no incorrect MIME type is emitted for those files.
+ * @param {string} imageSrc - Original image source path
+ * @returns {string} WebP source path, or original src when conversion is not applicable
+ */
+const getImageSrc = (imageSrc) => {
+  if (!imageSrc) return "";
+  if (!/\.(png|jpg|jpeg)$/i.test(imageSrc)) return imageSrc;
+  return imageSrc.replace(/\.(png|jpg|jpeg)$/i, ".webp");
+};
+
+/**
  * OptimizedImage Component
  * Provides responsive images with fallbacks and lazy loading
  * Supports WebP with PNG fallback for better performance
@@ -30,17 +43,16 @@ function OptimizedImage({
     onError?.();
   }, [onError]);
 
-  // Generate WebP src with fallback
-  const getImageSrc = (imageSrc) => {
-    if (!imageSrc) return "";
-    return imageSrc.replace(/\.(png|jpg|jpeg)$/i, ".webp");
-  };
+  const webpSrc = srcSet ? srcSet.webp : getImageSrc(src);
+  const hasWebp = webpSrc !== src;
 
   return (
     <picture>
-      {/* WebP format for modern browsers */}
-      <source srcSet={srcSet ? srcSet.webp : getImageSrc(src)} type="image/webp" sizes={sizes} />
-      
+      {/* WebP format for modern browsers — only when a WebP alternative exists */}
+      {hasWebp && (
+        <source srcSet={webpSrc} type="image/webp" sizes={sizes} />
+      )}
+
       {/* Fallback to original format */}
       <img
         src={src}

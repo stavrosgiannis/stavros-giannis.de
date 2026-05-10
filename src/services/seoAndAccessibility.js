@@ -51,7 +51,7 @@ export function setMetaTags(config) {
   setMetaTag("og:type", ogType, true);
 
   // Twitter Card tags
-  setMetaTag("twitter:card", "summary_large_image", true);
+  setMetaTag("twitter:card", "summary_large_image");
   setMetaTag("twitter:title", title);
   setMetaTag("twitter:description", description);
   setMetaTag("twitter:image", ogImage);
@@ -71,10 +71,17 @@ export function setMetaTags(config) {
  * @param {Object} data - Structured data object
  */
 export function addStructuredData(data) {
-  const script = document.createElement("script");
-  script.type = "application/ld+json";
+  const scriptId = `ld-json-${data["@type"] || "schema"}`;
+  let script = document.getElementById(scriptId);
+
+  if (!script) {
+    script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = scriptId;
+    document.head.appendChild(script);
+  }
+
   script.textContent = JSON.stringify(data);
-  document.head.appendChild(script);
 }
 
 /**

@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { debounce } from "../utils/helpers";
 
 /**
  * Custom hook to track window size
@@ -6,8 +7,8 @@ import { useState, useEffect, useCallback } from "react";
  */
 export function useWindowSize() {
   const [windowSize, setWindowSize] = useState({
-    width: typeof window !== "undefined" ? window.innerWidth : 0,
-    height: typeof window !== "undefined" ? window.innerHeight : 0,
+    width: window.innerWidth,
+    height: window.innerHeight,
   });
 
   const handleResize = useCallback(() => {
@@ -18,8 +19,9 @@ export function useWindowSize() {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    const debouncedResize = debounce(handleResize, 150);
+    window.addEventListener("resize", debouncedResize);
+    return () => window.removeEventListener("resize", debouncedResize);
   }, [handleResize]);
 
   return windowSize;

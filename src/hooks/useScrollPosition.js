@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import { throttle } from "../utils/helpers";
+import { SCROLL_THROTTLE_DELAY } from "../utils/constants";
 
 /**
  * Custom hook to track scroll position
@@ -19,8 +21,9 @@ export function useScrollPosition() {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const throttledScroll = throttle(handleScroll, SCROLL_THROTTLE_DELAY);
+    window.addEventListener("scroll", throttledScroll);
+    return () => window.removeEventListener("scroll", throttledScroll);
   }, [handleScroll]);
 
   return {

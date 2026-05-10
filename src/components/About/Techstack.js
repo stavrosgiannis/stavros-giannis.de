@@ -42,16 +42,15 @@ const techStack = [
   "SiFirebase",
   "SiRedis",
   "SiPostgresql",
-  "DiPython",
 ];
 
 function Techstack() {
   const techItems = useMemo(
     () =>
-      techStack.map((tech, index) => {
+      techStack.map((tech) => {
         const IconComponent = iconMap[tech];
         return (
-          <Col xs={4} md={2} className="tech-icons" key={index}>
+          <Col xs={4} md={2} className="tech-icons" key={tech}>
             <IconComponent />
           </Col>
         );

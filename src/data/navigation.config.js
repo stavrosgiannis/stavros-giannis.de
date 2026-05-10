@@ -33,7 +33,7 @@ export const NAV_ITEMS = [
 
 // Resume access configuration
 export const RESUME_CONFIG = {
-  accessCode: "WeWantYou",
+  accessCode: process.env.REACT_APP_RESUME_CODE || "",
   accessCodeMessage: "Enter access code to view resume",
   denialMessage: "Access denied. Incorrect code.",
 };

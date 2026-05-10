@@ -1,3 +1,4 @@
+// DEPRECATED: Use src/pages/Projects.js instead. Safe to delete.
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { usePortfolio } from "../../context/PortfolioContext";

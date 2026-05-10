@@ -25,7 +25,7 @@ export function reportWebVitals(callback) {
           callback({
             name: "LCP",
             value: entry.renderTime || entry.loadTime,
-            rating: entry.renderTime || entry.loadTime > VITALS_THRESHOLDS.LCP ? "poor" : "good",
+            rating: (entry.renderTime || entry.loadTime) > VITALS_THRESHOLDS.LCP ? "poor" : "good",
           });
         }
       });
@@ -68,9 +68,11 @@ export function reportWebVitals(callback) {
     // Navigation Timing metrics
     if ("PerformanceNavigationTiming" in window) {
       window.addEventListener("load", () => {
-        const perfData = window.performance.timing;
-        const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
-        
+        const navEntry = performance.getEntriesByType("navigation")[0];
+        if (!navEntry) return;
+
+        const pageLoadTime = navEntry.loadEventEnd - navEntry.startTime;
+
         callback({
           name: "Page Load Time",
           value: pageLoadTime,
@@ -78,7 +80,7 @@ export function reportWebVitals(callback) {
         });
 
         // First Contentful Paint
-        const fcp = perfData.responseEnd - perfData.navigationStart;
+        const fcp = navEntry.responseEnd - navEntry.startTime;
         callback({
           name: "FCP",
           value: fcp,
@@ -119,14 +121,16 @@ export function getPerformanceMetrics() {
     return null;
   }
 
-  const perfData = window.performance.timing;
-  const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
+  const navEntry = performance.getEntriesByType("navigation")[0];
+  if (!navEntry) return null;
+
+  const pageLoadTime = navEntry.loadEventEnd - navEntry.startTime;
 
   return {
     pageLoadTime,
-    domInteractiveTime: perfData.domInteractive - perfData.navigationStart,
-    resourceLoadTime: perfData.responseEnd - perfData.fetchStart,
-    domContentLoadedTime: perfData.domContentLoadedEventEnd - perfData.navigationStart,
+    domInteractiveTime: navEntry.domInteractive - navEntry.startTime,
+    resourceLoadTime: navEntry.responseEnd - navEntry.startTime,
+    domContentLoadedTime: navEntry.domContentLoadedEventEnd - navEntry.startTime,
   };
 }
 

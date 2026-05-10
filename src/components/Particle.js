@@ -1,20 +1,16 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo } from "react";
 import Particles from "react-tsparticles";
+import { useMobileDetect } from "../hooks/useMobileDetect";
+import { PARTICLE_CONFIG } from "../utils/constants";
 
 function Particle() {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const isMobile = useMobileDetect();
 
   const particlesParams = useMemo(
     () => ({
       particles: {
         number: {
-          value: isMobile ? 30 : 60,
+          value: isMobile ? PARTICLE_CONFIG.MOBILE_COUNT : PARTICLE_CONFIG.DESKTOP_COUNT,
           density: {
             enable: true,
             value_area: isMobile ? 1200 : 800,
@@ -26,7 +22,7 @@ function Particle() {
         },
         move: {
           direction: "right",
-          speed: isMobile ? 0.02 : 0.05,
+          speed: isMobile ? PARTICLE_CONFIG.MOBILE_SPEED : PARTICLE_CONFIG.DESKTOP_SPEED,
         },
         size: {
           value: 1,

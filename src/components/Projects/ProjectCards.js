@@ -6,7 +6,7 @@ import { CgWebsite } from "react-icons/cg";
 import { BsGithub } from "react-icons/bs";
 import OptimizedImage from "../OptimizedImage";
 
-function ProjectCards({ imgPath, title, description, ghLink, demoLink, isBlog }) {
+function ProjectCards({ imgPath, title, description, ghLink, demoLink = null, isBlog = false }) {
   return (
     <Card className="project-card-view">
       <div style={{ width: "100%", overflow: "hidden", backgroundColor: "#f5f5f5" }}>
@@ -56,9 +56,5 @@ ProjectCards.propTypes = {
   isBlog: PropTypes.bool,
 };
 
-ProjectCards.defaultProps = {
-  isBlog: false,
-  demoLink: null,
-};
 
 export default React.memo(ProjectCards);

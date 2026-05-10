@@ -9,15 +9,21 @@ export function registerServiceWorker() {
       navigator.serviceWorker
         .register("/service-worker.js")
         .then((registration) => {
-          console.log("Service Worker registered:", registration);
+          if (process.env.NODE_ENV !== "production") {
+            console.log("Service Worker registered:", registration);
+          }
 
-          // Check for updates periodically
-          setInterval(() => {
-            registration.update();
-          }, 60000); // Check every minute
+          // Check for updates when the user returns to the tab (avoids interval leak)
+          document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === "visible") {
+              registration.update();
+            }
+          });
         })
         .catch((error) => {
-          console.log("Service Worker registration failed:", error);
+          if (process.env.NODE_ENV !== "production") {
+            console.error("Service Worker registration failed:", error);
+          }
         });
     });
   }

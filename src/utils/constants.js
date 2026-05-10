@@ -32,12 +32,9 @@ export const PARTICLE_CONFIG = {
   MOBILE_SPEED: 0.02,
 };
 
-// Resume access configuration
-export const RESUME_ACCESS = {
-  CORRECT_CODE: "WeWantYou",
-  MAX_ATTEMPTS: 3,
-  LOCK_DURATION: 3600000, // 1 hour in milliseconds
-};
+// Resume lockout configuration (secret code is read from REACT_APP_RESUME_CODE env var)
+export const MAX_ATTEMPTS = 3;
+export const LOCK_DURATION = 3600000; // 1 hour in milliseconds
 
 // Social media icons and colors
 export const SOCIAL_COLORS = {
@@ -112,7 +109,8 @@ export default {
   ANIMATION_TIMINGS,
   SCROLL_THROTTLE_DELAY,
   PARTICLE_CONFIG,
-  RESUME_ACCESS,
+  MAX_ATTEMPTS,
+  LOCK_DURATION,
   SOCIAL_COLORS,
   PROJECT_CONFIG,
   SKILL_LEVELS,

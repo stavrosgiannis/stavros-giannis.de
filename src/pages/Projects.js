@@ -4,6 +4,20 @@ import { usePortfolio } from "../context/PortfolioContext";
 import SectionLayout from "../components/layout/SectionLayout";
 import ProjectCard from "../components/ui/ProjectCard";
 import chatify from "../Assets/Projects/chatify.png";
+import blog from "../Assets/Projects/blog.png";
+import codeEditor from "../Assets/Projects/codeEditor.png";
+import emotion from "../Assets/Projects/emotion.png";
+import leaf from "../Assets/Projects/leaf.png";
+import suicide from "../Assets/Projects/suicide.png";
+
+const IMAGE_MAP = {
+  "chatify.png": chatify,
+  "blog.png": blog,
+  "codeEditor.png": codeEditor,
+  "emotion.png": emotion,
+  "leaf.png": leaf,
+  "suicide.png": suicide,
+};
 
 /**
  * Projects Page - Displays portfolio projects
@@ -12,10 +26,9 @@ import chatify from "../Assets/Projects/chatify.png";
 function Projects() {
   const { projects } = usePortfolio();
 
-  // Map project data with actual image paths
   const projectsWithImages = projects.map((project) => ({
     ...project,
-    image: chatify, // Dynamically resolve image paths
+    image: IMAGE_MAP[project.image] || chatify,
   }));
 
   return (

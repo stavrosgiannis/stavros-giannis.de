@@ -9,12 +9,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineHome, AiOutlineFundProjectionScreen, AiOutlineUser } from "react-icons/ai";
 import { CgFileDocument } from "react-icons/cg";
 import { usePortfolio } from "../context/PortfolioContext";
+import { MAX_ATTEMPTS, LOCK_DURATION } from "../utils/constants";
 
 function NavBar() {
   const [expanded, setExpanded] = useState(false);
   const [navColour, setNavColour] = useState(false);
   const [showAccessModal, setShowAccessModal] = useState(false);
   const [accessCode, setAccessCode] = useState("");
+  const [attemptCount, setAttemptCount] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const throttleRef = useRef(null);
   const { resumeConfig, routes } = usePortfolio();
@@ -28,7 +32,7 @@ function NavBar() {
       if (throttleRef.current) clearTimeout(throttleRef.current);
       throttleRef.current = setTimeout(handleScroll, 100);
     };
-    
+
     window.addEventListener("scroll", handleThrottledScroll);
     return () => {
       window.removeEventListener("scroll", handleThrottledScroll);
@@ -37,20 +41,44 @@ function NavBar() {
   }, [handleScroll]);
 
   const handleAccessRequest = useCallback(() => {
+    if (isLocked) return;
+
     if (accessCode === resumeConfig.accessCode) {
       setShowAccessModal(false);
       setAccessCode("");
+      setAttemptCount(0);
+      setErrorMessage("");
       navigate(routes.RESUME);
     } else {
-      alert(resumeConfig.denialMessage);
+      const nextCount = attemptCount + 1;
       setAccessCode("");
+
+      if (nextCount >= MAX_ATTEMPTS) {
+        setIsLocked(true);
+        setAttemptCount(0);
+        setErrorMessage("Too many failed attempts. Please try again in 1 hour.");
+        setTimeout(() => {
+          setIsLocked(false);
+          setAttemptCount(0);
+          setErrorMessage("");
+        }, LOCK_DURATION);
+      } else {
+        setAttemptCount(nextCount);
+        setErrorMessage(
+          `${resumeConfig.denialMessage} (${nextCount}/${MAX_ATTEMPTS} attempts)`
+        );
+      }
     }
-  }, [accessCode, navigate, resumeConfig, routes.RESUME]);
+  }, [accessCode, attemptCount, isLocked, navigate, resumeConfig, routes.RESUME]);
 
   const handleCloseModal = useCallback(() => {
     setShowAccessModal(false);
     setAccessCode("");
-  }, []);
+    if (!isLocked) {
+      setAttemptCount(0);
+      setErrorMessage("");
+    }
+  }, [isLocked]);
 
   const handleNavClick = useCallback(() => {
     setExpanded(false);
@@ -70,7 +98,7 @@ function NavBar() {
         className={navColour ? "sticky" : "navbar"}
       >
         <Container>
-          <Navbar.Brand as={Link} to="/" className="navbar-brand">
+          <Navbar.Brand as={Link} to={routes.HOME} className="navbar-brand">
             <span style={{ fontWeight: 700, fontSize: "1.2em" }}>
               {"< "}
               <span style={{ color: "#cd5ff8" }}>SG</span>
@@ -88,13 +116,13 @@ function NavBar() {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="ms-auto" defaultActiveKey="#home">
               <Nav.Item>
-                <Nav.Link as={Link} to="/" onClick={() => setExpanded(false)}>
+                <Nav.Link as={Link} to={routes.HOME} onClick={handleNavClick}>
                   <AiOutlineHome /> Home
                 </Nav.Link>
               </Nav.Item>
 
               <Nav.Item>
-                <Nav.Link as={Link} to="/about" onClick={() => setExpanded(false)}>
+                <Nav.Link as={Link} to={routes.ABOUT} onClick={handleNavClick}>
                   <AiOutlineUser /> About
                 </Nav.Link>
               </Nav.Item>
@@ -128,17 +156,27 @@ function NavBar() {
                 type="password"
                 placeholder="Access Code"
                 value={accessCode}
+                disabled={isLocked}
                 onChange={(e) => setAccessCode(e.target.value)}
-                onKeyPress={(e) => e.key === "Enter" && handleAccessRequest()}
+                onKeyDown={(e) => e.key === "Enter" && handleAccessRequest()}
               />
             </Form.Group>
+            {errorMessage && (
+              <p className="text-danger mt-2 mb-0" role="alert">
+                {errorMessage}
+              </p>
+            )}
           </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleAccessRequest}>
+          <Button
+            variant="primary"
+            onClick={handleAccessRequest}
+            disabled={isLocked}
+          >
             Submit
           </Button>
         </Modal.Footer>

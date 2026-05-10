@@ -9,4 +9,4 @@ function ScrollToTop() {
   return null;
 }
 
-export default React.memo(ScrollToTop);
+export default ScrollToTop;

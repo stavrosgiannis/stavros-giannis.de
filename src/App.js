@@ -21,6 +21,29 @@ const About = lazy(() => import("./components/About/About"));
 const Projects = lazy(() => import("./pages/Projects"));
 const Resume = lazy(() => import("./components/Resume/ResumeNew"));
 
+class ErrorBoundary extends React.Component {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, info) {
+    console.error("ErrorBoundary caught an error:", error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ padding: "2rem", textAlign: "center" }}>
+          Something went wrong. Please refresh the page.
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 function AppContent() {
   return (
     <Router>
@@ -29,13 +52,15 @@ function AppContent() {
         <ScrollToTop />
         <main className="content">
           <Suspense fallback={<Preloader load={true} />}>
-            <Routes>
-              <Route path={ROUTES.HOME} element={<Home />} />
-              <Route path={ROUTES.ABOUT} element={<About />} />
-              <Route path={ROUTES.PROJECTS} element={<Projects />} />
-              <Route path={ROUTES.RESUME} element={<Resume />} />
-              <Route path="*" element={<Navigate to={ROUTES.HOME} />} />
-            </Routes>
+            <ErrorBoundary>
+              <Routes>
+                <Route path={ROUTES.HOME} element={<Home />} />
+                <Route path={ROUTES.ABOUT} element={<About />} />
+                <Route path={ROUTES.PROJECTS} element={<Projects />} />
+                <Route path={ROUTES.RESUME} element={<Resume />} />
+                <Route path="*" element={<Navigate to={ROUTES.HOME} />} />
+              </Routes>
+            </ErrorBoundary>
           </Suspense>
         </main>
         <Footer />

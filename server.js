@@ -1,9 +1,26 @@
 const express = require('express');
 const compression = require('compression');
 const path = require('path');
+// npm install helmet
+const helmet = require('helmet');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'"],
+      frameSrc: ["'none'"],
+      objectSrc: ["'none'"],
+    },
+  },
+}));
 
 // Enable gzip compression for all responses
 app.use(compression());
