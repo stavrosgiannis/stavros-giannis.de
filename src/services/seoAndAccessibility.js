@@ -2,6 +2,7 @@
  * SEO and Accessibility Utilities
  * Helps optimize meta tags, structured data, and accessibility
  */
+import { isProduction } from "../utils/env";
 
 /**
  * Set document meta tags dynamically
@@ -60,9 +61,7 @@ export function setMetaTags(config) {
   // Robots meta tag
   setMetaTag(
     "robots",
-    process.env.NODE_ENV === "production"
-      ? "index, follow"
-      : "noindex, nofollow"
+    isProduction ? "index, follow" : "noindex, nofollow"
   );
 }
 

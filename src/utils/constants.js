@@ -2,6 +2,7 @@
  * Application-wide constants
  * Centralized constants used throughout the application
  */
+import { getClientEnv } from "./env";
 
 // Breakpoints for responsive design
 export const BREAKPOINTS = {
@@ -32,7 +33,7 @@ export const PARTICLE_CONFIG = {
   MOBILE_SPEED: 0.02,
 };
 
-// Resume lockout configuration (secret code is read from REACT_APP_RESUME_CODE env var)
+// Resume lockout configuration (secret code is read from VITE_RESUME_CODE or REACT_APP_RESUME_CODE)
 export const MAX_ATTEMPTS = 3;
 export const LOCK_DURATION = 3600000; // 1 hour in milliseconds
 
@@ -84,7 +85,7 @@ export const SUCCESS_MESSAGES = {
 
 // API endpoints (if needed)
 export const API_ENDPOINTS = {
-  BASE_URL: process.env.REACT_APP_API_URL || "https://api.example.com",
+  BASE_URL: getClientEnv("API_URL", "https://api.example.com"),
   PROJECTS: "/projects",
   SKILLS: "/skills",
   CONTACT: "/contact",

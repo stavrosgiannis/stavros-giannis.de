@@ -1,4 +1,6 @@
 // Navigation routes configuration
+import { getClientEnv } from "../utils/env";
+
 export const ROUTES = {
   HOME: "/",
   ABOUT: "/about",
@@ -33,7 +35,7 @@ export const NAV_ITEMS = [
 
 // Resume access configuration
 export const RESUME_CONFIG = {
-  accessCode: process.env.REACT_APP_RESUME_CODE || "",
+  accessCode: getClientEnv("RESUME_CODE"),
   accessCodeMessage: "Enter access code to view resume",
   denialMessage: "Access denied. Incorrect code.",
 };

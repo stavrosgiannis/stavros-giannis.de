@@ -2,6 +2,7 @@
  * Performance Monitoring Service
  * Tracks Web Vitals and component performance metrics
  */
+import { isDevelopment } from "../utils/env";
 
 // Web Vitals thresholds (in milliseconds)
 export const VITALS_THRESHOLDS = {
@@ -138,7 +139,7 @@ export function getPerformanceMetrics() {
  * Log performance metrics to console (development only)
  */
 export function logPerformanceMetrics() {
-  if (process.env.NODE_ENV === "development") {
+  if (isDevelopment) {
     const metrics = getPerformanceMetrics();
     if (metrics) {
       console.group("Performance Metrics");

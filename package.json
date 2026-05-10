@@ -6,50 +6,45 @@
     "node": "22.x"
   },
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.4",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.1.3",
     "compression": "^1.8.1",
     "express": "^4.22.1",
     "helmet": "^8.1.0",
     "prop-types": "^15.8.1",
-    "react": "^17.0.2",
-    "react-bootstrap": "^2.2.1",
-    "react-dom": "^17.0.2",
-    "react-github-calendar": "^3.2.2",
+    "react": "^18.3.1",
+    "react-bootstrap": "^2.10.10",
+    "react-dom": "^18.3.1",
+    "react-github-calendar": "^5.0.6",
     "react-icons": "^4.8.0",
     "react-lazy-load-image-component": "^1.6.2",
     "react-parallax-tilt": "^1.7.42",
     "react-router-dom": "^6.2.2",
-    "react-scripts": "5.0.0",
     "react-tsparticles": "^1.42.2",
-    "typewriter-effect": "^2.18.2",
-    "web-vitals": "^2.1.4"
+    "typewriter-effect": "^2.22.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.2.0",
+    "jsdom": "^29.1.1",
+    "vite": "^7.3.3",
+    "vitest": "^4.1.5"
   },
   "overrides": {
     "@tootallnate/once": "^3.0.1",
     "nth-check": "^2.0.1",
-    "postcss": "^8.5.10",
-    "serialize-javascript": "7.0.5",
-    "rollup-plugin-terser": {
-      "serialize-javascript": "7.0.5"
-    }
+    "postcss": "^8.5.10"
   },
   "scripts": {
-    "develop": "react-scripts start",
-    "build": "react-scripts build",
+    "develop": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "server": "node server.js",
     "serve": "npm run build && npm run server",
-    "start": "react-scripts start",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "start": "vite",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "browserslist": {
     "production": [

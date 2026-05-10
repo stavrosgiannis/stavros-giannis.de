@@ -33,10 +33,10 @@ function Home() {
 
             <Col md={5} className="home-hero-img">
               <img
-                src={`${process.env.PUBLIC_URL}/home-main.svg`}
+                src="/home-main.svg"
                 alt="home pic"
                 loading="eager"
-                fetchpriority="high"
+                fetchPriority="high"
                 className="img-fluid"
                 width="450"
                 height="450"

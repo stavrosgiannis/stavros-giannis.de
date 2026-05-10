@@ -166,8 +166,8 @@ describe("Constants", () => {
     expect(constants.ANIMATION_TIMINGS.NORMAL).toBe(300);
   });
 
-  test("RESUME_ACCESS should have correct code", () => {
-    expect(constants.RESUME_ACCESS.CORRECT_CODE).toBe("WeWantYou");
+  test("MAX_ATTEMPTS should have required value", () => {
+    expect(constants.MAX_ATTEMPTS).toBe(3);
   });
 });
 
