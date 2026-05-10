@@ -104,7 +104,7 @@ export const LOCAL_STORAGE_KEYS = {
   USER_PREFERENCES: "user_preferences",
 };
 
-export default {
+const CONSTANTS = {
   BREAKPOINTS,
   ANIMATION_TIMINGS,
   SCROLL_THROTTLE_DELAY,
@@ -121,3 +121,5 @@ export default {
   CACHE_KEYS,
   LOCAL_STORAGE_KEYS,
 };
+
+export default CONSTANTS;
