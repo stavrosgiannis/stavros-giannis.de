@@ -8,9 +8,14 @@ import {
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
-import Preloader from "./components/Pre";
 import { PortfolioProvider } from "./context/PortfolioContext";
 import { ROUTES } from "./data/navigation.config";
+import {
+  HomeSkeleton,
+  AboutSkeleton,
+  ProjectsSkeleton,
+  ResumeSkeleton,
+} from "./components/skeletons";
 import "./style.css";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -51,17 +56,43 @@ function AppContent() {
         <Navbar />
         <ScrollToTop />
         <main className="content">
-          <Suspense fallback={<Preloader load={true} />}>
-            <ErrorBoundary>
-              <Routes>
-                <Route path={ROUTES.HOME} element={<Home />} />
-                <Route path={ROUTES.ABOUT} element={<About />} />
-                <Route path={ROUTES.PROJECTS} element={<Projects />} />
-                <Route path={ROUTES.RESUME} element={<Resume />} />
-                <Route path="*" element={<Navigate to={ROUTES.HOME} />} />
-              </Routes>
-            </ErrorBoundary>
-          </Suspense>
+          <ErrorBoundary>
+            <Routes>
+              <Route
+                path={ROUTES.HOME}
+                element={
+                  <Suspense fallback={<HomeSkeleton />}>
+                    <Home />
+                  </Suspense>
+                }
+              />
+              <Route
+                path={ROUTES.ABOUT}
+                element={
+                  <Suspense fallback={<AboutSkeleton />}>
+                    <About />
+                  </Suspense>
+                }
+              />
+              <Route
+                path={ROUTES.PROJECTS}
+                element={
+                  <Suspense fallback={<ProjectsSkeleton />}>
+                    <Projects />
+                  </Suspense>
+                }
+              />
+              <Route
+                path={ROUTES.RESUME}
+                element={
+                  <Suspense fallback={<ResumeSkeleton />}>
+                    <Resume />
+                  </Suspense>
+                }
+              />
+              <Route path="*" element={<Navigate to={ROUTES.HOME} />} />
+            </Routes>
+          </ErrorBoundary>
         </main>
         <Footer />
       </div>
