@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import SectionLayout from "./layout/SectionLayout";
+import SectionLayout from "./SectionLayout";
 
 export function HomeSkeleton() {
   return (

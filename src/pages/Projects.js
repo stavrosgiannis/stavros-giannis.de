@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { usePortfolio } from "../context/PortfolioContext";
-import SectionLayout from "../components/layout/SectionLayout";
+import SectionLayout from "../components/SectionLayout";
 import ProjectCard from "../components/ui/ProjectCard";
 import chatify from "../Assets/Projects/chatify.png";
 import blog from "../Assets/Projects/blog.png";

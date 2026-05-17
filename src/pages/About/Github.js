@@ -3,10 +3,6 @@ import { GitHubCalendar } from "react-github-calendar";
 import { Row } from "react-bootstrap";
 import { usePortfolio } from "../../context/PortfolioContext";
 
-/**
- * GitHub contribution calendar component
- * Displays user's GitHub activity using react-github-calendar
- */
 function Github() {
   const { socials } = usePortfolio();
   const githubUsername = socials.github?.split("/").pop() || "stavrosgiannis";

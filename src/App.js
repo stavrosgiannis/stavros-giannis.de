@@ -16,15 +16,13 @@ import {
   ProjectsSkeleton,
   ResumeSkeleton,
 } from "./components/skeletons";
-import "./style.css";
-import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // Lazy Loaded Components
-const Home = lazy(() => import("./components/Home/Home"));
-const About = lazy(() => import("./components/About/About"));
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
 const Projects = lazy(() => import("./pages/Projects"));
-const Resume = lazy(() => import("./components/Resume/ResumeNew"));
+const Resume = lazy(() => import("./pages/Resume"));
 
 class ErrorBoundary extends React.Component {
   state = { hasError: false };

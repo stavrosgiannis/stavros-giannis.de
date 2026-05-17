@@ -1,11 +1,11 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import { SectionLayout } from "../../components/layout";
-import pdf from "../../Assets/Lebenslauf_Giannis_Stavros.pdf";
 import { AiOutlineDownload } from "react-icons/ai";
+import SectionLayout from "../components/SectionLayout";
+import pdf from "../Assets/Lebenslauf_Giannis_Stavros.pdf";
 
-function ResumeNew() {
+function Resume() {
   return (
     <SectionLayout className="resume-section" showParticles={true}>
       <Row className="resume justify-content-center">
@@ -20,7 +20,12 @@ function ResumeNew() {
       </Row>
       <Row className="justify-content-center" style={{ marginTop: "1rem" }}>
         <Col xs="auto">
-          <Button variant="primary" href={pdf} target="_blank" rel="noopener noreferrer">
+          <Button
+            variant="primary"
+            href={pdf}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <AiOutlineDownload />
             &nbsp;Download CV
           </Button>
@@ -30,4 +35,4 @@ function ResumeNew() {
   );
 }
 
-export default React.memo(ResumeNew);
+export default React.memo(Resume);
