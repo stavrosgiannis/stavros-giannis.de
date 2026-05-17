@@ -36,7 +36,7 @@ function Home() {
                 src="/home-main.svg"
                 alt="home pic"
                 loading="eager"
-                fetchPriority="high"
+                fetchpriority="high"
                 className="img-fluid"
                 width="450"
                 height="450"
