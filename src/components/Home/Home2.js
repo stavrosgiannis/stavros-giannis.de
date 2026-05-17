@@ -15,9 +15,9 @@ function Home2() {
       <Container>
         <Row>
           <Col md={8} className="home-about-description">
-            <h1>
+            <h2>
               LET ME <span className="purple"> INTRODUCE </span> MYSELF
-            </h1>
+            </h2>
             <p className="home-about-body">
               I'm a software engineer with a strong foundation in
               cybersecurity, passionate about building secure and scalable

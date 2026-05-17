@@ -21,10 +21,10 @@ function Home() {
                 </span>
               </h1>
 
-              <h1 className="heading-name">
+              <h2 className="heading-name">
                 I'M
                 <strong className="main-name"> {portfolio.name}</strong>
-              </h1>
+              </h2>
 
               <div className="home-typewriter">
                 <Type />
