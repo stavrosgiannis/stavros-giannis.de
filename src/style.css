@@ -1,4 +1,6 @@
 html {
+  scrollbar-color: rgba(178, 121, 216, 0.959) #2d1950;
+  scrollbar-width: thin;
   --section-background-color: linear-gradient(
     to bottom left,
     rgba(17, 16, 16, 0.582),
