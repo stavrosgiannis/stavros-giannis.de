@@ -2,14 +2,13 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import OptimizedImage from "../OptimizedImage";
 import { SectionLayout } from "../../components/layout";
+import { usePortfolio } from "../../context/PortfolioContext";
 import myImg from "../../Assets/avatar.svg";
 import Tilt from "react-parallax-tilt";
 
-/**
- * Home introduction section
- * Displays personal introduction text and avatar image with tilt effect
- */
 function Home2() {
+  const { portfolio } = usePortfolio();
+
   return (
     <SectionLayout className="home-about-section" id="about" showParticles={false}>
       <Container>
@@ -25,14 +24,14 @@ function Home2() {
               <br />
               <br />I work primarily with
               <i>
-                <b className="purple"> C# .NET, TypeScript, and Python, </b>
+                <b className="purple"> {portfolio.introPrimary} </b>
               </i>
               and enjoy tackling challenges across the full stack.
               <br />
               <br />
               My interests span
               <i>
-                <b className="purple">AI, Cybersecurity, and Blockchain </b>
+                <b className="purple">{portfolio.introInterests} </b>
               </i>
               — areas where I'm constantly exploring new ideas and
               technologies.
@@ -42,7 +41,7 @@ function Home2() {
               <i>
                 <b className="purple">
                   {" "}
-                  WPF, ASP.NET, Angular, and TypeScript,
+                  {portfolio.introFrontend}
                 </b>
               </i>
               &nbsp;building intuitive interfaces backed by robust .NET

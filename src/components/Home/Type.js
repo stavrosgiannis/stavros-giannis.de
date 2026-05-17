@@ -1,15 +1,14 @@
 import React from "react";
 import Typewriter from "typewriter-effect";
+import { usePortfolio } from "../../context/PortfolioContext";
 
 function Type() {
+  const { portfolio } = usePortfolio();
+
   return (
     <Typewriter
       options={{
-        strings: [
-          "Software Engineer",
-          "Cyber Security Specialist",
-          "ISO 27001 Auditor",
-        ],
+        strings: portfolio.typewriterRoles,
         autoStart: true,
         loop: true,
         deleteSpeed: 50,

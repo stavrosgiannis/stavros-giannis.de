@@ -15,6 +15,14 @@ I have a Bachelor's degree in Cyber Security Management (B.Sc.) from the Univers
 I'm currently working as a software engineer at KPMG Global.`,
   tagline:
     "Every wireless signal is a potential attack vector, waiting to be exploited by those with the right knowledge.",
+  typewriterRoles: [
+    "Software Engineer",
+    "Cyber Security Specialist",
+    "ISO 27001 Auditor",
+  ],
+  introPrimary: "C# .NET, TypeScript, and Python,",
+  introFrontend: "WPF, ASP.NET, Angular, and TypeScript,",
+  introInterests: "AI, Cybersecurity, and Blockchain",
 };
 
 export const SOCIAL_LINKS = {

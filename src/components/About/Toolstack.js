@@ -6,6 +6,7 @@ import {
   SiWindows11,
   SiLinux,
 } from "react-icons/si";
+import { usePortfolio } from "../../context/PortfolioContext";
 
 const iconMap = {
   SiWindows11,
@@ -14,20 +15,22 @@ const iconMap = {
   SiPostman,
 };
 
-const toolStack = ["SiWindows11", "SiLinux", "SiVisualstudio", "SiPostman"];
-
 function Toolstack() {
+  const { tools } = usePortfolio();
+
   const toolItems = useMemo(
     () =>
-      toolStack.map((tool, index) => {
-        const IconComponent = iconMap[tool];
-        return (
-          <Col xs={4} md={2} className="tech-icons" key={index}>
-            <IconComponent />
-          </Col>
-        );
-      }),
-    []
+      tools
+        .filter(({ icon }) => iconMap[icon])
+        .map(({ name, icon }) => {
+          const IconComponent = iconMap[icon];
+          return (
+            <Col xs={4} md={2} className="tech-icons" key={name}>
+              <IconComponent />
+            </Col>
+          );
+        }),
+    [tools]
   );
 
   return (

@@ -6,6 +6,10 @@ import {
   DiMongodb,
   DiPython,
   DiAngularSimple,
+  DiJavascript1,
+  DiJava,
+  DiReact,
+  DiGit,
 } from "react-icons/di";
 import {
   SiRedis,
@@ -14,48 +18,59 @@ import {
   SiDotnet,
   SiTypescript,
   SiCsharp,
+  SiNextdotjs,
+  SiSolidity,
 } from "react-icons/si";
+import { TbBrandGolang } from "react-icons/tb";
+import { usePortfolio } from "../../context/PortfolioContext";
 
 const iconMap = {
   CgCPlusPlus,
   SiCsharp,
   SiTypescript,
   DiPython,
+  DiJavascript1,
+  DiJava,
   DiNodejs,
   DiAngularSimple,
-  DiMongodb,
+  DiReact,
   SiDotnet,
-  SiFirebase,
-  SiRedis,
+  SiNextdotjs,
+  DiMongodb,
   SiPostgresql,
+  SiRedis,
+  SiFirebase,
+  DiGit,
+  SiSolidity,
+  TbBrandGolang,
 };
 
-const techStack = [
-  "CgCPlusPlus",
-  "SiCsharp",
-  "SiTypescript",
-  "DiPython",
-  "DiNodejs",
-  "DiAngularSimple",
-  "DiMongodb",
-  "SiDotnet",
-  "SiFirebase",
-  "SiRedis",
-  "SiPostgresql",
-];
-
 function Techstack() {
+  const { skills } = usePortfolio();
+
+  const allSkills = useMemo(
+    () => [
+      ...skills.languages,
+      ...skills.frameworks,
+      ...skills.databases,
+      ...skills.other,
+    ],
+    [skills]
+  );
+
   const techItems = useMemo(
     () =>
-      techStack.map((tech) => {
-        const IconComponent = iconMap[tech];
-        return (
-          <Col xs={4} md={2} className="tech-icons" key={tech}>
-            <IconComponent />
-          </Col>
-        );
-      }),
-    []
+      allSkills
+        .filter(({ icon }) => iconMap[icon])
+        .map(({ name, icon }) => {
+          const IconComponent = iconMap[icon];
+          return (
+            <Col xs={4} md={2} className="tech-icons" key={name}>
+              <IconComponent />
+            </Col>
+          );
+        }),
+    [allSkills]
   );
 
   return (
