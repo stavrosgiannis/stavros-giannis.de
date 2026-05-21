@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Particle from "./components/Particle";
 import ScrollToTop from "./components/ScrollToTop";
 import { PortfolioProvider } from "./context/PortfolioContext";
 import { ROUTES } from "./data/navigation.config";
@@ -51,6 +52,7 @@ function AppContent() {
   return (
     <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <div className="App">
+        <Particle />
         <Navbar />
         <ScrollToTop />
         <main className="content">

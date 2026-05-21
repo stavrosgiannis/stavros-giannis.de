@@ -2,8 +2,6 @@ import { render, screen } from "@testing-library/react";
 import { PortfolioProvider } from "../context/PortfolioContext";
 import Home from "./Home";
 
-vi.mock("react-tsparticles", () => ({ default: () => null }));
-vi.mock("typewriter-effect", () => ({ default: () => null }));
 vi.mock("react-parallax-tilt", () => ({ default: ({ children }) => <>{children}</> }));
 vi.mock("../hooks/useMobileDetect", () => ({ useMobileDetect: () => false }));
 

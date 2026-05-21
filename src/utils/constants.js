@@ -29,8 +29,8 @@ export const PARTICLE_CONFIG = {
   DESKTOP_COUNT: 80,
   MOBILE_COUNT: 30,
   MOBILE_BREAKPOINT: 768,
-  DESKTOP_SPEED: 0.05,
-  MOBILE_SPEED: 0.02,
+  DESKTOP_SPEED: 0.006,
+  MOBILE_SPEED: 0.003,
 };
 
 // Resume lockout configuration (secret code is read from VITE_RESUME_CODE or REACT_APP_RESUME_CODE)

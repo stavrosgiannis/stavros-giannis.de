@@ -28,22 +28,23 @@ app.use(compression());
 // Serve static files from build directory
 const buildPath = path.join(__dirname, 'build');
 
-// Cache-Control middleware for static assets
-app.use(express.static(buildPath, {
-  maxAge: '1y', // 31536000s for hashed assets with /static/ prefix
-  etag: false,
-}));
-
-// Specific cache rules for different asset types
-app.use('/static', express.static(path.join(buildPath, 'static'), {
-  maxAge: '365d', // 1 year for content-hashed JS/CSS bundles
+// Cache content-hashed Vite assets aggressively.
+app.use('/assets', express.static(path.join(buildPath, 'assets'), {
+  maxAge: '365d',
   immutable: true,
   etag: false,
 }));
 
+// Serve public root assets without allowing index.html to be cached as static.
+app.use(express.static(buildPath, {
+  index: false,
+  maxAge: '1d',
+  etag: true,
+}));
+
 // Cache index.html with short TTL and must-revalidate
 app.get('/', (req, res) => {
-  res.set('Cache-Control', 'public, max-age=3600, must-revalidate');
+  res.set('Cache-Control', 'no-cache, must-revalidate');
   res.sendFile(path.join(buildPath, 'index.html'));
 });
 
@@ -55,7 +56,7 @@ app.get(/\.(jpg|jpeg|png|gif|svg|webp)$/i, (req, res, next) => {
 
 // SPA: Catch all routes and serve index.html for client-side routing
 app.get('*', (req, res) => {
-  res.set('Cache-Control', 'public, max-age=3600, must-revalidate');
+  res.set('Cache-Control', 'no-cache, must-revalidate');
   res.sendFile(path.join(buildPath, 'index.html'));
 });
 

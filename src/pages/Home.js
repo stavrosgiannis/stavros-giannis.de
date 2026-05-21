@@ -1,9 +1,9 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import Typewriter from "typewriter-effect";
 import Tilt from "react-parallax-tilt";
 import OptimizedImage from "../components/OptimizedImage";
 import SectionLayout from "../components/SectionLayout";
+import TypewriterText from "../components/TypewriterText";
 import { usePortfolio } from "../context/PortfolioContext";
 import myImg from "../Assets/avatar.svg";
 
@@ -27,14 +27,7 @@ function Home() {
                 <strong className="main-name"> {portfolio.name}</strong>
               </h2>
               <div className="home-typewriter">
-                <Typewriter
-                  options={{
-                    strings: portfolio.typewriterRoles,
-                    autoStart: true,
-                    loop: true,
-                    deleteSpeed: 50,
-                  }}
-                />
+                <TypewriterText strings={portfolio.typewriterRoles} deleteSpeed={50} />
               </div>
             </Col>
             <Col md={5} className="home-hero-img">

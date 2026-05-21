@@ -9,6 +9,13 @@ export default defineConfig({
     include: /[/\\]src[/\\].*\.js$/,
     exclude: [],
   },
+  optimizeDeps: {
+    esbuildOptions: {
+      loader: {
+        ".js": "jsx",
+      },
+    },
+  },
   build: {
     outDir: "build",
   },

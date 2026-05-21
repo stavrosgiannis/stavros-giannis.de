@@ -6,7 +6,6 @@ import {
   ResumeSkeleton,
 } from "./skeletons";
 
-vi.mock("react-tsparticles", () => ({ default: () => null }));
 vi.mock("../hooks/useMobileDetect", () => ({ useMobileDetect: () => false }));
 
 describe("HomeSkeleton", () => {

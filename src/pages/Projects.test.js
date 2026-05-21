@@ -2,7 +2,6 @@ import { render, screen } from "@testing-library/react";
 import { PortfolioProvider } from "../context/PortfolioContext";
 import Projects from "./Projects";
 
-vi.mock("react-tsparticles", () => ({ default: () => null }));
 vi.mock("../hooks/useMobileDetect", () => ({ useMobileDetect: () => false }));
 
 const Wrapper = ({ children }) => <PortfolioProvider>{children}</PortfolioProvider>;

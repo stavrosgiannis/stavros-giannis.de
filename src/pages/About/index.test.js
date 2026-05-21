@@ -2,7 +2,6 @@ import { render, screen } from "@testing-library/react";
 import { PortfolioProvider } from "../../context/PortfolioContext";
 import About from "./index";
 
-vi.mock("react-tsparticles", () => ({ default: () => null }));
 vi.mock("react-lazy-load-image-component", () => ({
   LazyLoadImage: ({ src, alt }) => <img src={src} alt={alt} />,
 }));
