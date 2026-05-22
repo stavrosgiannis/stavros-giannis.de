@@ -35,7 +35,7 @@ export const NAV_ITEMS = [
 
 // Resume access configuration
 export const RESUME_CONFIG = {
-  accessCode: getClientEnv("RESUME_CODE"),
+  accessCode: getClientEnv("RESUME_CODE", "WeWantYou"),
   accessCodeMessage: "Enter access code to view resume",
   denialMessage: "Access denied. Incorrect code.",
 };

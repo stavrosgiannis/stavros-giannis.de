@@ -15,7 +15,7 @@ app.use(helmet({
       styleSrc: ["'self'", "'unsafe-inline'"],
       fontSrc: ["'self'"],
       imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'"],
+      connectSrc: ["'self'", "https://github-contributions-api.jogruber.de"],
       frameSrc: ["'none'"],
       objectSrc: ["'none'"],
     },
