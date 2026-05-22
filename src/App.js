@@ -11,16 +11,14 @@ import Particle from "./components/Particle";
 import ScrollToTop from "./components/ScrollToTop";
 import { PortfolioProvider } from "./context/PortfolioContext";
 import { ROUTES } from "./data/navigation.config";
+import Home from "./pages/Home";
 import {
-  HomeSkeleton,
   AboutSkeleton,
   ProjectsSkeleton,
   ResumeSkeleton,
 } from "./components/skeletons";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 // Lazy Loaded Components
-const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
 const Projects = lazy(() => import("./pages/Projects"));
 const Resume = lazy(() => import("./pages/Resume"));
@@ -60,11 +58,7 @@ function AppContent() {
             <Routes>
               <Route
                 path={ROUTES.HOME}
-                element={
-                  <Suspense fallback={<HomeSkeleton />}>
-                    <Home />
-                  </Suspense>
-                }
+                element={<Home />}
               />
               <Route
                 path={ROUTES.ABOUT}

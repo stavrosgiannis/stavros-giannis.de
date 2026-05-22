@@ -12,8 +12,8 @@ app.use(helmet({
     directives: {
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      fontSrc: ["'self'"],
       imgSrc: ["'self'", "data:", "https:"],
       connectSrc: ["'self'"],
       frameSrc: ["'none'"],
@@ -38,20 +38,19 @@ app.use('/assets', express.static(path.join(buildPath, 'assets'), {
 // Serve public root assets without allowing index.html to be cached as static.
 app.use(express.static(buildPath, {
   index: false,
-  maxAge: '1d',
+  maxAge: 0,
   etag: true,
+  setHeaders: (res, filePath) => {
+    if (/\.(jpg|jpeg|png|gif|svg|webp|woff2|pdf)$/i.test(filePath)) {
+      res.set('Cache-Control', 'public, max-age=31536000, immutable');
+    }
+  },
 }));
 
 // Cache index.html with short TTL and must-revalidate
 app.get('/', (req, res) => {
   res.set('Cache-Control', 'no-cache, must-revalidate');
   res.sendFile(path.join(buildPath, 'index.html'));
-});
-
-// Cache images with 1 day TTL
-app.get(/\.(jpg|jpeg|png|gif|svg|webp)$/i, (req, res, next) => {
-  res.set('Cache-Control', 'public, max-age=86400');
-  next();
 });
 
 // SPA: Catch all routes and serve index.html for client-side routing
