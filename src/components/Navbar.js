@@ -5,13 +5,16 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineHome, AiOutlineFundProjectionScreen, AiOutlineUser } from "react-icons/ai";
 import { CgFileDocument } from "react-icons/cg";
 import { usePortfolio } from "../context/PortfolioContext";
 import { MAX_ATTEMPTS, LOCK_DURATION } from "../utils/constants";
 
-function NavBar() {
+const scrollToSection = (id) => {
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+};
+
+function NavBar({ onResumeUnlock }) {
   const [expanded, setExpanded] = useState(false);
   const [navColour, setNavColour] = useState(false);
   const [showAccessModal, setShowAccessModal] = useState(false);
@@ -19,9 +22,8 @@ function NavBar() {
   const [attemptCount, setAttemptCount] = useState(0);
   const [isLocked, setIsLocked] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
   const throttleRef = useRef(null);
-  const { resumeConfig, routes } = usePortfolio();
+  const { resumeConfig } = usePortfolio();
 
   const handleScroll = useCallback(() => {
     setNavColour(window.scrollY >= 20);
@@ -48,7 +50,7 @@ function NavBar() {
       setAccessCode("");
       setAttemptCount(0);
       setErrorMessage("");
-      navigate(routes.RESUME);
+      onResumeUnlock();
     } else {
       const nextCount = attemptCount + 1;
       setAccessCode("");
@@ -69,7 +71,7 @@ function NavBar() {
         );
       }
     }
-  }, [accessCode, attemptCount, isLocked, navigate, resumeConfig, routes.RESUME]);
+  }, [accessCode, attemptCount, isLocked, onResumeUnlock, resumeConfig]);
 
   const handleCloseModal = useCallback(() => {
     setShowAccessModal(false);
@@ -80,8 +82,9 @@ function NavBar() {
     }
   }, [isLocked]);
 
-  const handleNavClick = useCallback(() => {
+  const handleNavClick = useCallback((id) => {
     setExpanded(false);
+    scrollToSection(id);
   }, []);
 
   const handleResumeClick = useCallback(() => {
@@ -98,7 +101,11 @@ function NavBar() {
         className={navColour ? "sticky" : "navbar"}
       >
         <Container>
-          <Navbar.Brand as={Link} to={routes.HOME} className="navbar-brand">
+          <Navbar.Brand
+            href="#home"
+            className="navbar-brand"
+            onClick={() => scrollToSection("home")}
+          >
             <span style={{ fontWeight: 700, fontSize: "1.2em" }}>
               {"< "}
               <span style={{ color: "#cd5ff8" }}>SG</span>
@@ -116,25 +123,25 @@ function NavBar() {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="ms-auto" defaultActiveKey="#home">
               <Nav.Item>
-                <Nav.Link as={Link} to={routes.HOME} onClick={handleNavClick}>
+                <Nav.Link href="#home" onClick={() => handleNavClick("home")}>
                   <AiOutlineHome /> Home
                 </Nav.Link>
               </Nav.Item>
 
               <Nav.Item>
-                <Nav.Link as={Link} to={routes.ABOUT} onClick={handleNavClick}>
+                <Nav.Link href="#about" onClick={() => handleNavClick("about")}>
                   <AiOutlineUser /> About
                 </Nav.Link>
               </Nav.Item>
 
               <Nav.Item>
-                <Nav.Link as={Link} to={routes.PROJECTS} onClick={handleNavClick}>
+                <Nav.Link href="#projects" onClick={() => handleNavClick("projects")}>
                   <AiOutlineFundProjectionScreen /> Projects
                 </Nav.Link>
               </Nav.Item>
 
               <Nav.Item>
-                <Nav.Link onClick={handleResumeClick}>
+                <Nav.Link onClick={handleResumeClick} style={{ cursor: "pointer" }}>
                   <CgFileDocument /> Resume
                 </Nav.Link>
               </Nav.Item>
@@ -143,7 +150,6 @@ function NavBar() {
         </Container>
       </Navbar>
 
-      {/* Access Request Modal */}
       <Modal show={showAccessModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>{resumeConfig.accessCodeMessage}</Modal.Title>

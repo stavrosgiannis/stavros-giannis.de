@@ -1,33 +1,24 @@
-// Navigation routes configuration
 import { getClientEnv } from "../utils/env";
 
-export const ROUTES = {
-  HOME: "/",
-  ABOUT: "/about",
-  PROJECTS: "/project",
-  RESUME: "/resume",
-};
-
-// Navigation items with icons and labels
 export const NAV_ITEMS = [
   {
     label: "Home",
-    path: ROUTES.HOME,
+    sectionId: "home",
     icon: "AiOutlineHome",
   },
   {
     label: "About",
-    path: ROUTES.ABOUT,
+    sectionId: "about",
     icon: "AiOutlineUser",
   },
   {
     label: "Projects",
-    path: ROUTES.PROJECTS,
+    sectionId: "projects",
     icon: "AiOutlineFundProjectionScreen",
   },
   {
     label: "Resume",
-    path: ROUTES.RESUME,
+    sectionId: "resume",
     icon: "CgFileDocument",
     protected: true,
   },

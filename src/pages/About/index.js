@@ -4,7 +4,6 @@ import Card from "react-bootstrap/Card";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import SectionLayout from "../../components/SectionLayout";
 import { usePortfolio } from "../../context/PortfolioContext";
-import Github from "./Github";
 import Techstack from "./Techstack";
 import Toolstack from "./Toolstack";
 import laptopImg from "../../Assets/about.png";
@@ -13,7 +12,7 @@ function About() {
   const { portfolio } = usePortfolio();
 
   return (
-    <SectionLayout className="about-section" showParticles={true}>
+    <SectionLayout className="about-section" id="about">
       <Container>
         <Row className="about-row">
           <Col md={7} className="about-content">
@@ -69,7 +68,6 @@ function About() {
         </h2>
         <Toolstack />
 
-        <Github />
       </Container>
     </SectionLayout>
   );

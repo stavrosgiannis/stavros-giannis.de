@@ -2,7 +2,7 @@ import React, { createContext, useContext, useMemo } from "react";
 import { PORTFOLIO_META, SOCIAL_LINKS, INTERESTS, TECHNOLOGIES_FOCUS } from "../data/portfolio.data";
 import { SKILLS_DATA, TOOLS_DATA } from "../data/skills.data";
 import { PROJECTS_DATA } from "../data/projects.data";
-import { ROUTES, NAV_ITEMS, RESUME_CONFIG } from "../data/navigation.config";
+import { NAV_ITEMS, RESUME_CONFIG } from "../data/navigation.config";
 
 const PortfolioContext = createContext();
 
@@ -25,7 +25,6 @@ export function PortfolioProvider({ children }) {
       tools: TOOLS_DATA,
 
       // Configuration
-      routes: ROUTES,
       navItems: NAV_ITEMS,
       resumeConfig: RESUME_CONFIG,
     }),

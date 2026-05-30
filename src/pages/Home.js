@@ -45,7 +45,7 @@ function Home() {
         </Container>
       </SectionLayout>
 
-      <SectionLayout className="home-about-section" id="about" showParticles={false}>
+      <SectionLayout className="home-about-section">
         <Container>
           <Row>
             <Col md={8} className="home-about-description">

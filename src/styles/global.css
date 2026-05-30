@@ -24,11 +24,7 @@ body,
   overflow-x: hidden;
   scrollbar-color: rgba(178, 121, 216, 0.959) #2d1950;
   scrollbar-width: thin;
-  --section-background-color: linear-gradient(
-    to bottom left,
-    rgba(17, 16, 16, 0.582),
-    rgba(12, 8, 24, 0.904)
-  );
+  --section-background-color: rgba(12, 8, 24, 0.75);
   --image-gradient: linear-gradient(
     to bottom left,
     rgba(17, 16, 16, 0.678),
@@ -566,6 +562,7 @@ button:focus { box-shadow: none !important; }
 .home-section {
   position: relative;
   z-index: 0;
+  background-color: var(--section-background-color);
   background-position: top center;
   background-repeat: no-repeat;
   padding-bottom: 30px;
@@ -593,7 +590,7 @@ button:focus { box-shadow: none !important; }
   .myAvtar { padding-top: 2em; padding-bottom: 2em; }
 }
 
-.home-about-section { position: relative; padding-bottom: 70px; padding-top: 70px; }
+.home-about-section { position: relative; background-color: var(--section-background-color); padding-bottom: 70px; padding-top: 70px; }
 .home-about-description { color: white !important; padding-top: 100px; padding-bottom: 20px; text-align: center; }
 .home-about-description h1 { font-size: 2.6em; }
 .home-about-body { padding-top: 50px; font-size: 1.2em; text-align: left; }
@@ -643,7 +640,7 @@ button:focus { box-shadow: none !important; }
 /* --------- */
 /* Projects */
 /* --------- */
-.project-section { position: relative; padding-top: 150px; padding-bottom: 30px; }
+.project-section { position: relative; background-color: var(--section-background-color); padding-top: 60px; padding-bottom: 30px; color: white; }
 .project-card { padding-top: 50px; padding-bottom: 50px; padding-left: 25px; padding-right: 25px; height: auto; }
 
 .project-card-view {
@@ -668,7 +665,7 @@ button:focus { box-shadow: none !important; }
   position: relative;
   padding-top: 150px;
   padding-bottom: 30px;
-  background-image: var(--section-background-color);
+  background-color: var(--section-background-color);
   color: white;
 }
 
@@ -709,7 +706,7 @@ button:focus { box-shadow: none !important; }
   position: relative;
   padding-top: 110px;
   padding-bottom: 30px;
-  background-image: var(--section-background-color);
+  background-color: var(--section-background-color);
   color: white;
 }
 

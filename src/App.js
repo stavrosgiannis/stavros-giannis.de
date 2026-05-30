@@ -1,27 +1,12 @@
-import React, { lazy, Suspense } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
+import React, { useState } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Particle from "./components/Particle";
-import ScrollToTop from "./components/ScrollToTop";
 import { PortfolioProvider } from "./context/PortfolioContext";
-import { ROUTES } from "./data/navigation.config";
 import Home from "./pages/Home";
-import {
-  AboutSkeleton,
-  ProjectsSkeleton,
-  ResumeSkeleton,
-} from "./components/skeletons";
-
-// Lazy Loaded Components
-const About = lazy(() => import("./pages/About"));
-const Projects = lazy(() => import("./pages/Projects"));
-const Resume = lazy(() => import("./pages/Resume"));
+import About from "./pages/About";
+import Projects from "./pages/Projects";
+import Resume from "./pages/Resume";
 
 class ErrorBoundary extends React.Component {
   state = { hasError: false };
@@ -47,50 +32,29 @@ class ErrorBoundary extends React.Component {
 }
 
 function AppContent() {
+  const [resumeUnlocked, setResumeUnlocked] = useState(false);
+
+  const handleResumeUnlock = () => {
+    setResumeUnlocked(true);
+    setTimeout(() => {
+      document.getElementById("resume")?.scrollIntoView({ behavior: "smooth" });
+    }, 50);
+  };
+
   return (
-    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <div className="App">
-        <Particle />
-        <Navbar />
-        <ScrollToTop />
-        <main className="content">
-          <ErrorBoundary>
-            <Routes>
-              <Route
-                path={ROUTES.HOME}
-                element={<Home />}
-              />
-              <Route
-                path={ROUTES.ABOUT}
-                element={
-                  <Suspense fallback={<AboutSkeleton />}>
-                    <About />
-                  </Suspense>
-                }
-              />
-              <Route
-                path={ROUTES.PROJECTS}
-                element={
-                  <Suspense fallback={<ProjectsSkeleton />}>
-                    <Projects />
-                  </Suspense>
-                }
-              />
-              <Route
-                path={ROUTES.RESUME}
-                element={
-                  <Suspense fallback={<ResumeSkeleton />}>
-                    <Resume />
-                  </Suspense>
-                }
-              />
-              <Route path="*" element={<Navigate to={ROUTES.HOME} />} />
-            </Routes>
-          </ErrorBoundary>
-        </main>
-        <Footer />
-      </div>
-    </Router>
+    <div className="App">
+      <Particle />
+      <Navbar onResumeUnlock={handleResumeUnlock} />
+      <main className="content">
+        <ErrorBoundary>
+          <Home />
+          <About />
+          <Projects />
+          <Resume unlocked={resumeUnlocked} />
+        </ErrorBoundary>
+      </main>
+      <Footer />
+    </div>
   );
 }
 
