@@ -1136,6 +1136,11 @@ h3,
 
 .career-quest {
   position: relative;
+  margin-bottom: 1.4rem;
+}
+
+.career-quest:last-child {
+  margin-bottom: 0;
 }
 
 .career-marker {
@@ -1195,6 +1200,27 @@ h3,
   content: "//";
   margin-right: 0.85rem;
   color: var(--pixel-border);
+}
+
+.career-project {
+  margin: 0.2rem 0 1rem;
+  padding: 0.85rem;
+  border-left: 3px solid var(--pixel-border);
+  background: rgba(18, 24, 58, 0.72);
+}
+
+.career-project h3 {
+  margin-bottom: 0.55rem;
+  color: var(--pixel-gold);
+  font-size: 0.72rem;
+  line-height: 1.55;
+}
+
+.career-project p {
+  margin-bottom: 0;
+  color: var(--pixel-cream);
+  font-size: 0.94rem;
+  line-height: 1.6;
 }
 
 .career-highlights {

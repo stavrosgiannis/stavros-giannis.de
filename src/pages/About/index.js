@@ -29,6 +29,12 @@ function About() {
                       <span>{experience.period}</span>
                       <span>{experience.location}</span>
                     </p>
+                    {experience.project && (
+                      <div className="career-project">
+                        <h3>{experience.project}</h3>
+                        <p>{experience.summary}</p>
+                      </div>
+                    )}
                     <ul className="career-highlights">
                       {experience.highlights.map((highlight) => (
                         <li key={highlight}>{highlight}</li>
