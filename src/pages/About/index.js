@@ -24,7 +24,16 @@ function About() {
                   <div className="career-quest-panel">
                     <span className="career-status">{experience.status}</span>
                     <h2>{experience.role}</h2>
-                    <p>{experience.company}</p>
+                    <p className="career-company">{experience.company}</p>
+                    <p className="career-meta">
+                      <span>{experience.period}</span>
+                      <span>{experience.location}</span>
+                    </p>
+                    <ul className="career-highlights">
+                      {experience.highlights.map((highlight) => (
+                        <li key={highlight}>{highlight}</li>
+                      ))}
+                    </ul>
                   </div>
                 </article>
               ))}

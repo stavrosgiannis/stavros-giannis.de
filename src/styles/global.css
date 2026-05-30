@@ -1174,10 +1174,47 @@ h3,
   line-height: 1.55;
 }
 
-.career-quest-panel p {
-  margin-bottom: 0;
+.career-company {
+  margin-bottom: 0.65rem;
   color: var(--pixel-cream);
   font-size: 1rem;
+}
+
+.career-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.85rem;
+  margin-bottom: 1rem;
+  color: var(--pixel-teal);
+  font-family: "Silkscreen", "Courier New", monospace;
+  font-size: 0.58rem;
+  line-height: 1.55;
+}
+
+.career-meta span + span::before {
+  content: "//";
+  margin-right: 0.85rem;
+  color: var(--pixel-border);
+}
+
+.career-highlights {
+  margin: 0;
+  padding-left: 1.15rem;
+  color: var(--pixel-cream);
+}
+
+.career-highlights li {
+  margin-bottom: 0.65rem;
+  padding-left: 0.25rem;
+  line-height: 1.6;
+}
+
+.career-highlights li:last-child {
+  margin-bottom: 0;
+}
+
+.career-highlights li::marker {
+  color: var(--pixel-gold);
 }
 
 .stats-panel {
@@ -1473,6 +1510,15 @@ h3,
 
   .career-marker {
     left: -1.62rem;
+  }
+
+  .career-meta {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .career-meta span + span::before {
+    margin-right: 0.5rem;
   }
 }
 
