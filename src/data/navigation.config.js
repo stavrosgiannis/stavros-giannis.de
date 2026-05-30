@@ -7,7 +7,7 @@ export const NAV_ITEMS = [
     icon: "AiOutlineHome",
   },
   {
-    label: "About",
+    label: "Experience",
     sectionId: "about",
     icon: "AiOutlineUser",
   },

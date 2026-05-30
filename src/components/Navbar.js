@@ -126,7 +126,7 @@ function NavBar({ onResumeUnlock }) {
 
               <Nav.Item>
                 <Nav.Link href="#about" onClick={() => handleNavClick("about")}>
-                  <AiOutlineUser /> About
+                  <AiOutlineUser /> Experience
                 </Nav.Link>
               </Nav.Item>
 

@@ -10,6 +10,13 @@ export const PORTFOLIO_META = {
     university: "University of Applied Sciences Niederrhein",
   },
   currentRole: "Software Engineer at KPMG Global",
+  experience: [
+    {
+      company: "KPMG Global",
+      role: "Software Engineer",
+      status: "CURRENT ROLE",
+    },
+  ],
   aboutText: `Hi Everyone, I am Stavros Giannis from Düsseldorf, Germany.
 I have a Bachelor's degree in Cyber Security Management (B.Sc.) from the University of Applied Sciences Niederrhein.
 I'm currently working as a software engineer at KPMG Global.`,

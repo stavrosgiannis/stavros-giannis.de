@@ -1,6 +1,5 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import Card from "react-bootstrap/Card";
 import SectionLayout from "../../components/SectionLayout";
 import { usePortfolio } from "../../context/PortfolioContext";
 import Techstack from "./Techstack";
@@ -14,42 +13,26 @@ function About() {
       <Container>
         <Row className="about-row">
           <Col md={7} className="about-content">
-            <p className="pixel-kicker">PLAYER PROFILE</p>
+            <p className="pixel-kicker">CAREER QUESTS</p>
             <h1>
-              Know Who <strong className="purple">I'M</strong>
+              Professional <strong className="purple">EXPERIENCE</strong>
             </h1>
-            <Card className="quote-card-view">
-              <Card.Body>
-                <blockquote className="blockquote mb-0">
-                  <p style={{ textAlign: "justify" }}>
-                    Hi Everyone, I am{" "}
-                    <span className="purple">{portfolio.name} </span>
-                    from <span className="purple">{portfolio.location}</span>
-                    <br />
-                    I have a{" "}
-                    <span className="purple">{portfolio.education.degree}</span>{" "}
-                    in{" "}
-                    <span className="purple">{portfolio.education.field}</span>{" "}
-                    from{" "}
-                    <span className="purple">
-                      {portfolio.education.university}
-                    </span>
-                    <br />
-                    I'm currently {portfolio.currentRole}
-                    <br />
-                    <br />
-                  </p>
-                  <p style={{ color: "rgb(155 126 172)" }}>
-                    "{portfolio.tagline}"{" "}
-                  </p>
-                  <footer className="blockquote-footer">{portfolio.name}</footer>
-                </blockquote>
-              </Card.Body>
-            </Card>
+            <div className="career-timeline">
+              {portfolio.experience.map((experience) => (
+                <article className="career-quest" key={`${experience.company}-${experience.role}`}>
+                  <span className="career-marker" aria-hidden="true" />
+                  <div className="career-quest-panel">
+                    <span className="career-status">{experience.status}</span>
+                    <h2>{experience.role}</h2>
+                    <p>{experience.company}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
           </Col>
           <Col md={5} className="about-img">
             <div className="stats-panel pixel-frame">
-              <p className="pixel-kicker">CHARACTER STATS</p>
+              <p className="pixel-kicker">CAREER STATS</p>
               <dl>
                 <dt>CLASS</dt>
                 <dd>{portfolio.title}</dd>
