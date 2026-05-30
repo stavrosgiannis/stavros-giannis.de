@@ -779,14 +779,38 @@ button:focus { box-shadow: none !important; }
 .sk-card-img { height: 200px;  width: 100%;  border-radius: 8px 8px 0 0; }
 .sk-btn      { height: 36px;   width: 130px; border-radius: 4px; }
 
-@keyframes page-fade-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes section-fade-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
-.section { animation: page-fade-in 0.25s ease-out; }
-
-.section > .container {
+.section > .section-content {
   position: relative;
   z-index: 1;
+}
+
+.section.section-pending {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+}
+
+.section.section-fade-in {
+  animation: section-fade-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section.section-pending {
+    opacity: 1;
+    transform: none;
+  }
+
+  .section.section-fade-in {
+    animation: none;
+  }
 }
