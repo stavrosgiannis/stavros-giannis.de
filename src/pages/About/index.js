@@ -3,7 +3,6 @@ import { Container, Row, Col } from "react-bootstrap";
 import SectionLayout from "../../components/SectionLayout";
 import { usePortfolio } from "../../context/PortfolioContext";
 import Techstack from "./Techstack";
-import Toolstack from "./Toolstack";
 
 function About() {
   const { portfolio } = usePortfolio();
@@ -69,12 +68,6 @@ function About() {
           Professional <strong className="purple">Skillset </strong>
         </h2>
         <Techstack />
-
-        <p className="pixel-kicker section-label">INVENTORY</p>
-        <h2 className="project-heading">
-          <strong className="purple">Tools</strong> I use
-        </h2>
-        <Toolstack />
 
       </Container>
     </SectionLayout>
