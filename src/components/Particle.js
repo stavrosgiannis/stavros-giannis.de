@@ -30,7 +30,10 @@ function Particle() {
       y: Math.random(),
       phase: Math.random() * Math.PI * 2,
       drift: 0.2 + Math.random() * 0.8,
+      size: Math.random() > 0.84 ? 3 : 2,
+      color: Math.random() > 0.82 ? "#f4c96b" : "#9dd9d2",
     }));
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let width = 0;
     let height = 0;
     let animationFrame = 0;
@@ -45,36 +48,46 @@ function Particle() {
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+
+      if (reduceMotion) {
+        draw(0, false);
+      }
     };
 
-    const draw = (timestamp) => {
+    const draw = (timestamp, shouldAnimate = true) => {
       const deltaSeconds = lastTimestamp
         ? Math.min((timestamp - lastTimestamp) / 1000, 0.1)
         : 0;
 
       lastTimestamp = timestamp;
       context.clearRect(0, 0, width, height);
-      context.fillStyle = "#c770f0";
 
       particles.forEach((particle) => {
-        particle.x = (particle.x + speed * particle.drift * deltaSeconds) % 1;
+        if (shouldAnimate) {
+          particle.x = (particle.x + speed * particle.drift * deltaSeconds) % 1;
+        }
 
-        const x = particle.x * width;
-        const y = particle.y * height;
-        const opacity = 0.12 + Math.abs(Math.sin(timestamp / 1000 + particle.phase)) * 0.38;
+        const x = Math.floor(particle.x * width);
+        const y = Math.floor(particle.y * height);
+        const opacity = shouldAnimate
+          ? 0.16 + Math.abs(Math.sin(timestamp / 1000 + particle.phase)) * 0.44
+          : 0.3;
 
+        context.fillStyle = particle.color;
         context.globalAlpha = opacity;
-        context.beginPath();
-        context.arc(x, y, 1.4, 0, Math.PI * 2);
-        context.fill();
+        context.fillRect(x, y, particle.size, particle.size);
       });
 
       context.globalAlpha = 1;
-      animationFrame = window.requestAnimationFrame(draw);
+      if (shouldAnimate) {
+        animationFrame = window.requestAnimationFrame(draw);
+      }
     };
 
     resize();
-    animationFrame = window.requestAnimationFrame(draw);
+    if (!reduceMotion) {
+      animationFrame = window.requestAnimationFrame(draw);
+    }
     window.addEventListener("resize", resize);
 
     return () => {

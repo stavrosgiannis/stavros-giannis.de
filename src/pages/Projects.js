@@ -33,6 +33,7 @@ function Projects() {
 
   return (
     <SectionLayout className="project-section" id="projects">
+      <p className="pixel-kicker section-label">QUEST LOG</p>
       <h1 className="project-heading">
         My Recent <strong className="purple">Works</strong>
       </h1>

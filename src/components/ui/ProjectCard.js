@@ -23,10 +23,18 @@ function ProjectCard({ project }) {
     <Card className="project-card-view">
       <Card.Img variant="top" src={image} alt={imageAlt} />
       <Card.Body>
+        <p className="pixel-kicker">ACTIVE QUEST</p>
         <Card.Title>{title}</Card.Title>
         <Card.Text style={{ textAlign: "justify" }}>
           {description}
         </Card.Text>
+        {project.tags?.length > 0 && (
+          <div className="quest-tags">
+            {project.tags.map((tag) => (
+              <span key={tag}>{tag}</span>
+            ))}
+          </div>
+        )}
         <Button 
           variant="primary" 
           href={github} 

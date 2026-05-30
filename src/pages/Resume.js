@@ -8,6 +8,7 @@ import pdf from "../Assets/Lebenslauf_Giannis_Stavros.pdf";
 function Resume({ unlocked }) {
   return (
     <SectionLayout className="resume-section" id="resume">
+      <p className="pixel-kicker section-label">ARCHIVE</p>
       {unlocked ? (
         <>
           <Row className="resume justify-content-center">
@@ -35,9 +36,9 @@ function Resume({ unlocked }) {
           </Row>
         </>
       ) : (
-        <Row className="justify-content-center" style={{ padding: "4rem 0" }}>
+        <Row className="archive-gate justify-content-center">
           <Col xs="auto" style={{ textAlign: "center" }}>
-            <p style={{ color: "rgb(155 126 172)", fontSize: "1.2rem" }}>
+            <p>
               Resume is protected. Use the Resume link in the navbar to access it.
             </p>
           </Col>

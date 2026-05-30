@@ -1,12 +1,10 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import SectionLayout from "../../components/SectionLayout";
 import { usePortfolio } from "../../context/PortfolioContext";
 import Techstack from "./Techstack";
 import Toolstack from "./Toolstack";
-import laptopImg from "../../Assets/about.png";
 
 function About() {
   const { portfolio } = usePortfolio();
@@ -16,6 +14,7 @@ function About() {
       <Container>
         <Row className="about-row">
           <Col md={7} className="about-content">
+            <p className="pixel-kicker">PLAYER PROFILE</p>
             <h1>
               Know Who <strong className="purple">I'M</strong>
             </h1>
@@ -49,20 +48,31 @@ function About() {
             </Card>
           </Col>
           <Col md={5} className="about-img">
-            <LazyLoadImage
-              src={laptopImg}
-              alt="about"
-              className="img-fluid"
-              effect="blur"
-            />
+            <div className="stats-panel pixel-frame">
+              <p className="pixel-kicker">CHARACTER STATS</p>
+              <dl>
+                <dt>CLASS</dt>
+                <dd>{portfolio.title}</dd>
+                <dt>BASE</dt>
+                <dd>{portfolio.location}</dd>
+                <dt>EDUCATION</dt>
+                <dd>{portfolio.education.degree}</dd>
+                <dt>FOCUS</dt>
+                <dd>{portfolio.education.field}</dd>
+                <dt>GUILD</dt>
+                <dd>{portfolio.currentRole}</dd>
+              </dl>
+            </div>
           </Col>
         </Row>
 
+        <p className="pixel-kicker section-label">SKILL TREE</p>
         <h2 className="project-heading">
           Professional <strong className="purple">Skillset </strong>
         </h2>
         <Techstack />
 
+        <p className="pixel-kicker section-label">INVENTORY</p>
         <h2 className="project-heading">
           <strong className="purple">Tools</strong> I use
         </h2>

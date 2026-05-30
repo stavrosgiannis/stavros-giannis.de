@@ -106,11 +106,7 @@ function NavBar({ onResumeUnlock }) {
             className="navbar-brand"
             onClick={() => scrollToSection("home")}
           >
-            <span style={{ fontWeight: 700, fontSize: "1.2em" }}>
-              {"< "}
-              <span style={{ color: "#cd5ff8" }}>SG</span>
-              {" />"}
-            </span>
+            <span className="hud-brand">[ SG ]</span>
           </Navbar.Brand>
           <Navbar.Toggle
             aria-controls="responsive-navbar-nav"
@@ -152,7 +148,10 @@ function NavBar({ onResumeUnlock }) {
 
       <Modal show={showAccessModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>{resumeConfig.accessCodeMessage}</Modal.Title>
+          <Modal.Title>
+            <span className="pixel-kicker">ARCHIVE GATE</span>
+            {resumeConfig.accessCodeMessage}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>

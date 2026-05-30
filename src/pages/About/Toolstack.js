@@ -27,6 +27,7 @@ function Toolstack() {
           return (
             <Col xs={4} md={2} className="tech-icons" key={name}>
               <IconComponent />
+              <span>{name}</span>
             </Col>
           );
         }),

@@ -1,11 +1,9 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import Tilt from "react-parallax-tilt";
-import OptimizedImage from "../components/OptimizedImage";
 import SectionLayout from "../components/SectionLayout";
 import TypewriterText from "../components/TypewriterText";
 import { usePortfolio } from "../context/PortfolioContext";
-import myImg from "../Assets/avatar.svg";
+import pixelAvatar from "../Assets/pixel-developer-avatar.png";
 
 function Home() {
   const { portfolio } = usePortfolio();
@@ -14,32 +12,36 @@ function Home() {
     <>
       <SectionLayout className="home-section" id="home" showParticles={true}>
         <Container className="home-content">
-          <Row>
+          <Row className="hero-layout">
             <Col md={7} className="home-header">
+              <p className="pixel-kicker">PLAYER ONE // ONLINE</p>
               <h1 className="heading">
-                Hi There!{" "}
-                <span className="wave" role="img" aria-label="Wave">
-                  👋🏻
-                </span>
+                Welcome, traveler <span className="pixel-spark">*</span>
               </h1>
               <h2 className="heading-name">
-                I'M
+                I'M{" "}
                 <strong className="main-name"> {portfolio.name}</strong>
               </h2>
               <div className="home-typewriter">
                 <TypewriterText strings={portfolio.typewriterRoles} deleteSpeed={50} />
               </div>
+              <div className="hero-status">
+                <span>CLASS</span>
+                <strong>{portfolio.title}</strong>
+                <span>BASE</span>
+                <strong>{portfolio.location}</strong>
+              </div>
             </Col>
             <Col md={5} className="home-hero-img">
-              <img
-                src="/home-main.svg"
-                alt="home pic"
-                loading="eager"
-                fetchpriority="high"
-                className="img-fluid"
-                width="450"
-                height="450"
-              />
+              <div className="pixel-frame hero-art-frame">
+                <img
+                  src="/pixel-night-coding-room.png"
+                  alt="Pixel art coding room at night"
+                  loading="eager"
+                  fetchpriority="high"
+                  className="img-fluid pixel-art"
+                />
+              </div>
             </Col>
           </Row>
         </Container>
@@ -49,6 +51,7 @@ function Home() {
         <Container>
           <Row>
             <Col md={8} className="home-about-description">
+              <p className="pixel-kicker">PLAYER PROFILE</p>
               <h2>
                 LET ME <span className="purple"> INTRODUCE </span> MYSELF
               </h2>
@@ -81,16 +84,16 @@ function Home() {
               </p>
             </Col>
             <Col md={4} className="myAvtar">
-              <Tilt>
-                <OptimizedImage
-                  src={myImg}
-                  alt="avatar"
+              <div className="pixel-frame avatar-frame">
+                <img
+                  src={pixelAvatar}
+                  alt="Pixel art developer avatar"
                   loading="lazy"
-                  className="img-fluid"
+                  className="img-fluid pixel-art"
                   width="300"
                   height="300"
                 />
-              </Tilt>
+              </div>
             </Col>
           </Row>
         </Container>
