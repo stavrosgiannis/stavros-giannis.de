@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Particle from "./components/Particle";
+import ScrollProgressBar from "./components/ScrollProgressBar";
 import { PortfolioProvider } from "./context/PortfolioContext";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -43,6 +44,7 @@ function AppContent() {
 
   return (
     <div className="App">
+      <ScrollProgressBar />
       <Particle />
       <Navbar onResumeUnlock={handleResumeUnlock} />
       <main className="content">

@@ -1,9 +1,11 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 import { useScrollFade } from "../hooks/useScrollFade";
+import { useScrollReveal } from "../hooks/useScrollReveal";
 
 export function SectionLayout({ children, className = "", id = "" }) {
   const [ref, revealClass] = useScrollFade();
+  const revealContainerRef = useScrollReveal();
 
   return (
     <Container
@@ -12,7 +14,9 @@ export function SectionLayout({ children, className = "", id = "" }) {
       className={`section ${className}${revealClass ? ` ${revealClass}` : ""}`}
       id={id}
     >
-      <Container className="section-content">{children}</Container>
+      <Container className="section-content" ref={revealContainerRef}>
+        {children}
+      </Container>
     </Container>
   );
 }

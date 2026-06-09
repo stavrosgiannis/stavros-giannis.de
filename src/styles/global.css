@@ -402,7 +402,6 @@ svg {
   flex: 1;
 }
 
-.purple { color: var(--imp-text-color) !important; }
 
 button:focus { box-shadow: none !important; }
 
@@ -651,14 +650,8 @@ button:focus { box-shadow: none !important; }
 .project-card { padding-top: 50px; padding-bottom: 50px; padding-left: 25px; padding-right: 25px; height: auto; }
 
 .project-card-view {
-  box-shadow: 0 4px 5px 3px rgba(119, 53, 136, 0.459);
-  color: white !important;
-  background-color: transparent !important;
-  opacity: 0.9;
-  transition: all 0.5s ease 0s;
   height: 100%;
 }
-.project-card-view:hover { transform: scale(1.02); overflow: hidden; box-shadow: 0 4px 4px 5px rgba(129, 72, 144, 0.561); }
 
 .btn-primary { color: #fff !important; background-color: #623686 !important; border-color: #623686 !important; }
 .btn-primary:hover { color: #fff !important; background-color: #6d20c5d7 !important; border-color: #6d20c5d7 !important; }
@@ -681,27 +674,9 @@ button:focus { box-shadow: none !important; }
 .about-content h1 { font-size: 2.1em; padding-bottom: 20px; }
 .about-img { padding-top: 120px; padding-bottom: 50px; }
 
-.tech-icons {
-  font-size: 4.5em;
-  margin: 15px;
-  padding: 10px;
-  opacity: 0.93;
-  border: 1.7px solid rgba(200, 137, 230, 0.637);
-  vertical-align: middle;
-  text-align: center;
-  border-radius: 5px;
-  display: table;
-  box-shadow: 4px 5px 4px 3px rgba(89, 4, 168, 0.137);
-  overflow: hidden;
-  transition: all 0.4s ease 0s;
-}
-
 @media (max-width: 767px) {
-  .tech-icons { margin: 10px; }
   .about-img { padding-top: 0; }
 }
-
-.tech-icons:hover { transform: scale(1.05); overflow: hidden; border: 2.2px solid rgba(197, 115, 230, 0.883); }
 .tech-icon-images { padding: 20px; line-height: 1.6; }
 .about-activity { list-style: none; text-align: left; padding-left: 1px; }
 
@@ -818,6 +793,37 @@ button:focus { box-shadow: none !important; }
 
   .section.section-fade-in {
     animation: none;
+  }
+}
+
+/* Staggered child reveals (applied by useScrollReveal to [data-reveal] items) */
+.reveal-item {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+}
+
+.reveal-item--visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition:
+    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--reveal-index, 0) * 70ms);
+}
+
+/* Stepped easing variant to match the pixel aesthetic */
+[data-reveal="pixel"].reveal-item--visible {
+  transition-timing-function: steps(3, end), steps(3, end);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-item {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal-item--visible {
+    transition: none;
   }
 }
 
@@ -1557,5 +1563,192 @@ h3,
   .project-card-view,
   .btn {
     transition: none;
+  }
+}
+
+/* --------- */
+/* "More extra" pixel animation pack */
+/* --------- */
+
+/* Quest progress bar (scroll XP bar) */
+.quest-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: var(--pixel-shadow);
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.quest-progress__fill {
+  height: 100%;
+  width: 0%;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--pixel-gold) 0px,
+    var(--pixel-gold) 12px,
+    #c89b3f 12px,
+    #c89b3f 16px
+  );
+  box-shadow: 0 0 8px rgba(244, 201, 107, 0.45);
+}
+
+/* Materialize flicker for pixel reveals */
+@keyframes pixel-materialize {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  35% { opacity: 0.3; }
+  55% { opacity: 1; }
+  70% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+[data-reveal="pixel"].reveal-item--visible {
+  animation: pixel-materialize 0.45s steps(1, end) both;
+  animation-delay: calc(var(--reveal-index, 0) * 70ms);
+}
+
+/* Sparkle pop when pixel items reveal */
+@keyframes pixel-spark-pop {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.6); }
+  30% { opacity: 1; transform: translate(4px, -8px) scale(1.2); }
+  100% { opacity: 0; transform: translate(9px, -16px) scale(0.8); }
+}
+
+[data-reveal="pixel"] {
+  position: relative;
+}
+
+[data-reveal="pixel"].reveal-item--visible::after {
+  content: "*";
+  position: absolute;
+  top: 4px;
+  right: 10px;
+  color: var(--pixel-gold);
+  font-size: 1.1rem;
+  text-shadow: 0 0 6px rgba(244, 201, 107, 0.8);
+  opacity: 0;
+  pointer-events: none;
+  animation: pixel-spark-pop 0.7s steps(3, end) both;
+  animation-delay: calc(var(--reveal-index, 0) * 70ms + 0.35s);
+}
+
+/* CRT scanlines on the hero art frame */
+@keyframes crt-flicker {
+  0%, 91% { opacity: 1; }
+  93% { opacity: 0.65; }
+  96% { opacity: 0.9; }
+  100% { opacity: 1; }
+}
+
+.hero-art-frame {
+  position: relative;
+}
+
+.hero-art-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(5, 7, 22, 0.16) 0px,
+    rgba(5, 7, 22, 0.16) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  pointer-events: none;
+  animation: crt-flicker 4s steps(2, end) infinite;
+}
+
+/* Hover juice: stepped wiggle + gold glow */
+@keyframes pixel-wiggle {
+  0% { transform: translate(-2px, -4px) rotate(0deg); }
+  25% { transform: translate(-2px, -4px) rotate(-3deg); }
+  60% { transform: translate(-2px, -4px) rotate(3deg); }
+  100% { transform: translate(-2px, -4px) rotate(0deg); }
+}
+
+.tech-icons:hover {
+  animation: pixel-wiggle 0.35s steps(4, end);
+}
+
+.project-card-view:hover {
+  box-shadow:
+    8px 8px 0 var(--pixel-shadow),
+    0 0 18px rgba(244, 201, 107, 0.35);
+}
+
+.project-card-tilt {
+  height: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal="pixel"].reveal-item--visible,
+  .hero-art-frame::after,
+  .tech-icons:hover {
+    animation: none;
+  }
+
+  [data-reveal="pixel"].reveal-item--visible::after {
+    content: none;
+  }
+}
+
+/* HUD section heading dividers */
+.project-heading::after,
+.about-content h1::after,
+.home-about-description h2::after {
+  content: "";
+  display: block;
+  width: 96px;
+  height: 4px;
+  margin-top: 0.9rem;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--pixel-gold) 0px,
+    var(--pixel-gold) 10px,
+    var(--pixel-border-dark) 10px,
+    var(--pixel-border-dark) 14px
+  );
+}
+
+.project-heading::after {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Locked archive gate */
+.archive-gate-panel {
+  max-width: 420px;
+  margin: 2rem auto 0;
+  padding: 1.6rem 1.8rem;
+  text-align: center;
+  background: var(--pixel-panel);
+  border: 3px solid var(--pixel-border-dark);
+  box-shadow: 6px 6px 0 var(--pixel-shadow);
+}
+
+.archive-gate-lock {
+  display: inline-block;
+  font-size: 2.2rem;
+  color: var(--pixel-gold);
+  margin-bottom: 0.6rem;
+}
+
+.archive-gate-status {
+  animation: pixel-blink 1.2s steps(2, end) infinite;
+}
+
+.archive-gate-hint {
+  margin: 0;
+  color: var(--pixel-cream);
+  line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .archive-gate-status {
+    animation: none;
   }
 }

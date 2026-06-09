@@ -25,14 +25,24 @@ function Particle() {
     const speed = isMobile
       ? PARTICLE_CONFIG.MOBILE_SPEED
       : PARTICLE_CONFIG.DESKTOP_SPEED;
-    const particles = Array.from({ length: particleCount }, () => ({
-      x: Math.random(),
-      y: Math.random(),
-      phase: Math.random() * Math.PI * 2,
-      drift: 0.2 + Math.random() * 0.8,
-      size: Math.random() > 0.84 ? 3 : 2,
-      color: Math.random() > 0.82 ? "#f4c96b" : "#9dd9d2",
-    }));
+    const particles = Array.from({ length: particleCount }, () => {
+      const sizeRoll = Math.random();
+      const colorRoll = Math.random();
+
+      return {
+        x: Math.random(),
+        y: Math.random(),
+        phase: Math.random() * Math.PI * 2,
+        drift: 0.2 + Math.random() * 0.8,
+        size: sizeRoll > 0.96 ? 4 : sizeRoll > 0.8 ? 3 : 2,
+        color:
+          colorRoll > 0.85
+            ? "#f4c96b"
+            : colorRoll > 0.68
+              ? "#a78bfa"
+              : "#9dd9d2",
+      };
+    });
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let width = 0;
     let height = 0;

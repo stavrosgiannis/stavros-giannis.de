@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import { AiOutlineDownload } from "react-icons/ai";
+import { AiOutlineDownload, AiFillLock } from "react-icons/ai";
 import SectionLayout from "../components/SectionLayout";
 import pdf from "../Assets/Lebenslauf_Giannis_Stavros.pdf";
 
@@ -37,10 +37,15 @@ function Resume({ unlocked }) {
         </>
       ) : (
         <Row className="archive-gate justify-content-center">
-          <Col xs="auto" style={{ textAlign: "center" }}>
-            <p>
-              Resume is protected. Use the Resume link in the navbar to access it.
-            </p>
+          <Col xs="auto">
+            <div className="archive-gate-panel">
+              <AiFillLock className="archive-gate-lock" aria-hidden="true" />
+              <p className="archive-gate-status pixel-kicker">LOCKED</p>
+              <p className="archive-gate-hint">
+                Resume is protected. Use the Resume link in the navbar to
+                access it.
+              </p>
+            </div>
           </Col>
         </Row>
       )}

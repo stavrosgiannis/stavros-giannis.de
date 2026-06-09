@@ -65,7 +65,13 @@ function Techstack() {
         .map(({ name, icon }) => {
           const IconComponent = iconMap[icon];
           return (
-            <Col xs={4} md={2} className="tech-icons" key={name}>
+            <Col
+              xs={4}
+              md={2}
+              className="tech-icons"
+              key={name}
+              data-reveal="pixel"
+            >
               <IconComponent />
               <span>{name}</span>
             </Col>
