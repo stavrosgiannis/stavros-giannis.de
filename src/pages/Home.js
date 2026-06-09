@@ -10,7 +10,7 @@ function Home() {
 
   return (
     <>
-      <SectionLayout className="home-section" id="home" showParticles={true}>
+      <SectionLayout className="home-section" id="home">
         <Container className="home-content">
           <Row className="hero-layout">
             <Col md={7} className="home-header">

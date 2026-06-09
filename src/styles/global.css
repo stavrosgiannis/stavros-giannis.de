@@ -38,7 +38,6 @@ body,
     rgba(17, 16, 16, 0.678),
     rgba(12, 10, 22, 0.863)
   );
-  --imp-text-color: #c770f0;
 }
 
 body {
@@ -636,18 +635,16 @@ button:focus { box-shadow: none !important; }
 /* --------- */
 /* Footer */
 /* --------- */
-.footer { color: white; padding: 20px 0; text-align: center; }
+.footer { position: relative; z-index: 1; color: white; padding: 20px 0; text-align: center; }
 .footer-copywright { text-align: center; }
 .footer-body { z-index: 1; text-align: center; }
-.footer { position: relative; z-index: 1; }
 .footer h3 { font-size: 1em; color: white !important; margin-top: 0.5em; margin-bottom: 0.5em; }
 .footer-icons { margin-top: 0.5em; margin-bottom: 0.5em; padding: 0; }
 
 /* --------- */
 /* Projects */
 /* --------- */
-.project-section { position: relative; background-color: var(--section-background-color); padding-top: 60px; padding-bottom: 30px; color: white; }
-.project-card { padding-top: 50px; padding-bottom: 50px; padding-left: 25px; padding-right: 25px; height: auto; }
+.project-section { position: relative; background-color: var(--section-background-color); color: white; }
 
 .project-card-view {
   height: 100%;
@@ -677,8 +674,6 @@ button:focus { box-shadow: none !important; }
 @media (max-width: 767px) {
   .about-img { padding-top: 0; }
 }
-.tech-icon-images { padding: 20px; line-height: 1.6; }
-.about-activity { list-style: none; text-align: left; padding-left: 1px; }
 
 /* --------- */
 /* Resume */
