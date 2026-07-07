@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Particle from "./components/Particle";
 import ScrollProgressBar from "./components/ScrollProgressBar";
 import { PortfolioProvider } from "./context/PortfolioContext";
 import Home from "./pages/Home";
-import About from "./pages/About";
-import Projects from "./pages/Projects";
-import Resume from "./pages/Resume";
+
+const About = React.lazy(() => import("./pages/About"));
+const Projects = React.lazy(() => import("./pages/Projects"));
+const Resume = React.lazy(() => import("./pages/Resume"));
 
 class ErrorBoundary extends React.Component {
   state = { hasError: false };
@@ -50,9 +51,11 @@ function AppContent() {
       <main className="content">
         <ErrorBoundary>
           <Home />
-          <About />
-          <Projects />
-          <Resume unlocked={resumeUnlocked} />
+          <Suspense fallback={null}>
+            <About />
+            <Projects />
+            <Resume unlocked={resumeUnlocked} />
+          </Suspense>
         </ErrorBoundary>
       </main>
       <Footer />

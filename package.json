@@ -20,6 +20,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.2.0",
+    "cross-env": "^7.0.3",
+    "rollup-plugin-visualizer": "^7.0.1",
     "vite": "^7.3.3"
   },
   "overrides": {
@@ -33,7 +35,8 @@
     "preview": "vite preview",
     "server": "node server.js",
     "serve": "npm run build && npm run server",
-    "start": "vite"
+    "start": "vite",
+    "analyze": "cross-env ANALYZE=true vite build"
   },
   "browserslist": {
     "production": [

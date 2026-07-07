@@ -3,20 +3,17 @@ import { Row, Col } from "react-bootstrap";
 import { usePortfolio } from "../context/PortfolioContext";
 import SectionLayout from "../components/SectionLayout";
 import ProjectCard from "../components/ui/ProjectCard";
-import chatify from "../Assets/Projects/chatify.png";
-import blog from "../Assets/Projects/blog.png";
-import codeEditor from "../Assets/Projects/codeEditor.png";
-import emotion from "../Assets/Projects/emotion.png";
-import leaf from "../Assets/Projects/leaf.png";
-import suicide from "../Assets/Projects/suicide.png";
 
-const IMAGE_MAP = {
-  "chatify.png": chatify,
-  "blog.png": blog,
-  "codeEditor.png": codeEditor,
-  "emotion.png": emotion,
-  "leaf.png": leaf,
-  "suicide.png": suicide,
+// Only images referenced by PROJECTS_DATA get bundled — adding a project
+// is now a one-file edit (projects.data.js + drop the file in Assets/Projects/).
+const PROJECT_IMAGES = import.meta.glob("../Assets/Projects/*.{png,jpg,jpeg,webp}", {
+  eager: true,
+  import: "default",
+});
+
+const resolveProjectImage = (filename) => {
+  const entry = Object.entries(PROJECT_IMAGES).find(([path]) => path.endsWith(`/${filename}`));
+  return entry?.[1];
 };
 
 /**
@@ -28,7 +25,7 @@ function Projects() {
 
   const projectsWithImages = projects.map((project) => ({
     ...project,
-    image: IMAGE_MAP[project.image] || chatify,
+    image: resolveProjectImage(project.image),
   }));
 
   return (
