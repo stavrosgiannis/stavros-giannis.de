@@ -39,7 +39,7 @@ function AppContent() {
   const handleResumeUnlock = () => {
     setResumeUnlocked(true);
     setTimeout(() => {
-      document.getElementById("resume")?.scrollIntoView({ behavior: "smooth" });
+      document.getElementById("resume")?.scrollIntoView();
     }, 50);
   };
 

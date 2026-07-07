@@ -50,7 +50,7 @@ function Home() {
       <SectionLayout className="home-about-section">
         <Container>
           <Row>
-            <Col md={8} className="home-about-description" data-reveal="pixel">
+            <Col md={8} className="home-about-description">
               <p className="pixel-kicker">PLAYER PROFILE</p>
               <h2>
                 LET ME <span className="purple"> INTRODUCE </span> MYSELF
@@ -83,7 +83,7 @@ function Home() {
                 architectures.
               </p>
             </Col>
-            <Col md={4} className="myAvtar" data-reveal="pixel">
+            <Col md={4} className="myAvtar">
               <div className="pixel-frame avatar-frame">
                 <img
                   src={pixelAvatar}

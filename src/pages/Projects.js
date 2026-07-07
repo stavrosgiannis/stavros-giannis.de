@@ -37,7 +37,7 @@ function Projects() {
       <p>Here are a few projects I've worked on recently.</p>
       <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
         {projectsWithImages.map((project) => (
-          <Col md={4} className="project-card" key={project.id} data-reveal="pixel">
+          <Col md={4} className="project-card" key={project.id}>
             <ProjectCard project={project} />
           </Col>
         ))}

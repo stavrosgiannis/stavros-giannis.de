@@ -11,7 +11,7 @@ import { usePortfolio } from "../context/PortfolioContext";
 import { MAX_ATTEMPTS, LOCK_DURATION } from "../utils/constants";
 
 const scrollToSection = (id) => {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  document.getElementById(id)?.scrollIntoView();
 };
 
 function NavBar({ onResumeUnlock }) {
