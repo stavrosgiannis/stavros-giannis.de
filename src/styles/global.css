@@ -780,17 +780,6 @@ button:focus { box-shadow: none !important; }
   animation: section-fade-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .section.section-pending {
-    opacity: 1;
-    transform: none;
-  }
-
-  .section.section-fade-in {
-    animation: none;
-  }
-}
-
 /* Staggered child reveals (applied by useScrollReveal to [data-reveal] items) */
 .reveal-item {
   opacity: 0;
@@ -809,17 +798,6 @@ button:focus { box-shadow: none !important; }
 /* Stepped easing variant to match the pixel aesthetic */
 [data-reveal="pixel"].reveal-item--visible {
   transition-timing-function: steps(3, end), steps(3, end);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .reveal-item {
-    opacity: 1;
-    transform: none;
-  }
-
-  .reveal-item--visible {
-    transition: none;
-  }
 }
 
 /* --------- */
@@ -867,8 +845,8 @@ h3,
 .pixel-kicker,
 .Typewriter__wrapper,
 .Typewriter__cursor {
-  font-family: "Silkscreen", "Courier New", monospace !important;
-  font-weight: 400 !important;
+  font-family: "Silkscreen", "Courier New", monospace;
+  font-weight: 400;
 }
 
 .purple,
@@ -1512,6 +1490,16 @@ h3,
     padding: 1.2rem;
   }
 
+  /* Outer section padding was desktop-only, leaving a large dead gap
+     between framed panels on short mobile viewports. */
+  .home-about-section,
+  .about-section,
+  .project-section,
+  .resume-section {
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+  }
+
   .home-about-description {
     padding: 0.5rem;
   }
@@ -1549,17 +1537,6 @@ h3,
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .pixel-spark {
-    animation: none;
-  }
-
-  .tech-icons,
-  .project-card-view,
-  .btn {
-    transition: none;
-  }
-}
 
 /* --------- */
 /* "More extra" pixel animation pack */
@@ -1679,17 +1656,6 @@ h3,
   height: 100%;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  [data-reveal="pixel"].reveal-item--visible,
-  .hero-art-frame::after,
-  .tech-icons:hover {
-    animation: none;
-  }
-
-  [data-reveal="pixel"].reveal-item--visible::after {
-    content: none;
-  }
-}
 
 /* HUD section heading dividers */
 .project-heading::after,
@@ -1742,7 +1708,48 @@ h3,
   line-height: 1.5;
 }
 
+/* Single consolidated reduced-motion guard covering every animation/
+   transition defined above, so new motion additions have one place
+   to register a reduce-motion override. */
 @media (prefers-reduced-motion: reduce) {
+  .section.section-pending {
+    opacity: 1;
+    transform: none;
+  }
+
+  .section.section-fade-in {
+    animation: none;
+  }
+
+  .reveal-item {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal-item--visible {
+    transition: none;
+  }
+
+  .pixel-spark {
+    animation: none;
+  }
+
+  .tech-icons,
+  .project-card-view,
+  .btn {
+    transition: none;
+  }
+
+  [data-reveal="pixel"].reveal-item--visible,
+  .hero-art-frame::after,
+  .tech-icons:hover {
+    animation: none;
+  }
+
+  [data-reveal="pixel"].reveal-item--visible::after {
+    content: none;
+  }
+
   .archive-gate-status {
     animation: none;
   }
