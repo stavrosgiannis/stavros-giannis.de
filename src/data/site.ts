@@ -76,3 +76,14 @@ export const skills = [
   { group: "Cloud & data", items: ["Azure", "Azure Functions", "PostgreSQL", "MongoDB", "Redis"] },
   { group: "Security", items: ["ISO 27001 auditing", "RBAC design", "Vulnerability remediation"] },
 ];
+
+/** The big floating keys on the 3D homepage. `key` is the physical keyboard shortcut. */
+export const sections = [
+  { id: "about", key: "A", label: "About" },
+  { id: "experience", key: "E", label: "Experience" },
+  { id: "work", key: "W", label: "Work" },
+  { id: "stack", key: "S", label: "Stack" },
+  { id: "contact", key: "C", label: "Contact" },
+] as const;
+
+export type SectionId = (typeof sections)[number]["id"];

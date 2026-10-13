@@ -18,10 +18,12 @@
     "astro": "^7.3.8",
     "compression": "^1.8.2",
     "express": "^4.22.3",
-    "helmet": "^8.3.0"
+    "helmet": "^8.3.0",
+    "three": "^0.186.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@types/three": "^0.186.0",
     "typescript": "^5.9.3"
   }
 }

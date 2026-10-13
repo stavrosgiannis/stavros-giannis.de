@@ -1,45 +1,64 @@
 ---
 import Base from "../layouts/Base.astro";
-import { site, highlights, experience, projects, skills } from "../data/site";
+import { site, highlights, experience, projects, skills, sections } from "../data/site";
 ---
 
-<Base>
-  <section class="hero">
-    <p class="eyebrow">{site.role} · {site.location}</p>
-    <h1>{site.name}</h1>
-    <p class="lead">{site.intro}</p>
-    <p class="actions">
-      <a class="button" href={`mailto:${site.email}`}>Get in touch</a>
-      {site.links.map((l) => <a href={l.href} rel="me noopener">{l.label}</a>)}
-    </p>
-  </section>
+<Base immersive>
+  <canvas id="scene" aria-hidden="true"></canvas>
 
-  <section aria-label="Highlights" class="stats">
-    {highlights.map((h) => (
-      <div>
-        <p class="stat">{h.value}</p>
-        <p class="muted">{h.label}</p>
-      </div>
+  <header class="hud-top">
+    <a href="/" class="mark" aria-label="Home">SG</a>
+    <div>
+      <p class="hud-name">{site.name}</p>
+      <p class="hud-role">{site.role} · {site.location}</p>
+    </div>
+  </header>
+
+  <p class="hud-hint" aria-hidden="true">
+    <span class="hint-fine">Click a key, or press {sections.map((s) => <kbd>{s.key}</kbd>)}</span>
+    <span class="hint-touch">Tap a floating key</span>
+  </p>
+
+  <nav class="keynav" aria-label="Sections">
+    {sections.map((s) => (
+      <a href={`#${s.id}`} data-section={s.id}>
+        <kbd>{s.key}</kbd><span>{s.label}</span>
+      </a>
     ))}
-  </section>
+  </nav>
 
-  <section id="experience">
-    <h2>Experience</h2>
-    {experience.map((job) => (
-      <article class="job">
-        <div class="job-head">
+  <div class="panels">
+    <section id="about" class="panel" aria-labelledby="about-h">
+      <button class="panel-close" type="button" aria-label="Close">Esc</button>
+      <p class="eyebrow">{site.role} · {site.location}</p>
+      <h1 id="about-h" tabindex="-1">{site.name}</h1>
+      <p class="lead">{site.intro}</p>
+      <div class="stats">
+        {highlights.map((h) => (
+          <div>
+            <p class="stat">{h.value}</p>
+            <p class="muted">{h.label}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section id="experience" class="panel" aria-labelledby="experience-h">
+      <button class="panel-close" type="button" aria-label="Close">Esc</button>
+      <h2 id="experience-h" tabindex="-1">Experience</h2>
+      {experience.map((job) => (
+        <article class="job">
           <h3>{job.role} <span class="muted">· {job.company}</span></h3>
           <p class="mono muted">{job.period}</p>
-        </div>
-        {job.summary && <p>{job.summary}</p>}
-        <ul>{job.points.map((p) => <li>{p}</li>)}</ul>
-      </article>
-    ))}
-  </section>
+          {job.summary && <p>{job.summary}</p>}
+          <ul>{job.points.map((p) => <li>{p}</li>)}</ul>
+        </article>
+      ))}
+    </section>
 
-  <section id="work">
-    <h2>Selected work</h2>
-    <div class="cards">
+    <section id="work" class="panel" aria-labelledby="work-h">
+      <button class="panel-close" type="button" aria-label="Close">Esc</button>
+      <h2 id="work-h" tabindex="-1">Selected work</h2>
       {projects.map((p) => (
         <article class="card">
           <h3>{p.href ? <a href={p.href}>{p.title}</a> : p.title}</h3>
@@ -47,26 +66,39 @@ import { site, highlights, experience, projects, skills } from "../data/site";
           <p class="tags">{p.tags.map((t) => <span>{t}</span>)}</p>
         </article>
       ))}
-    </div>
-  </section>
+    </section>
 
-  <section id="skills">
-    <h2>Toolbox</h2>
-    <dl class="skills">
-      {skills.map((s) => (
-        <div>
-          <dt>{s.group}</dt>
-          <dd>{s.items.join(", ")}</dd>
-        </div>
-      ))}
-    </dl>
-  </section>
+    <section id="stack" class="panel" aria-labelledby="stack-h">
+      <button class="panel-close" type="button" aria-label="Close">Esc</button>
+      <h2 id="stack-h" tabindex="-1">Stack</h2>
+      <dl class="skills">
+        {skills.map((s) => (
+          <div>
+            <dt>{s.group}</dt>
+            <dd>{s.items.join(", ")}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>
-      The best way to reach me is email: <a href={`mailto:${site.email}`}>{site.email}</a>.
-      My full CV is available on request.
-    </p>
-  </section>
+    <section id="contact" class="panel" aria-labelledby="contact-h">
+      <button class="panel-close" type="button" aria-label="Close">Esc</button>
+      <h2 id="contact-h" tabindex="-1">Contact</h2>
+      <p>The best way to reach me is email. My full CV is available on request.</p>
+      <p class="actions">
+        <a class="button" href={`mailto:${site.email}`}>{site.email}</a>
+        {site.links.map((l) => <a href={l.href} rel="me noopener">{l.label}</a>)}
+      </p>
+      <p class="muted"><a href="/privacy">Privacy</a></p>
+    </section>
+  </div>
+
+  <footer class="hud-foot">
+    <a href="/privacy">Privacy</a>
+  </footer>
+
+  <script>
+    import { setupHome } from "../scripts/home";
+    setupHome();
+  </script>
 </Base>

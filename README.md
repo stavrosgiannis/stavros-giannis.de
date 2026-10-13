@@ -4,6 +4,7 @@ Personal site of Stavros Giannis, built with [Astro](https://astro.build) as a f
 
 - `src/data/site.ts`: all content (intro, highlights, experience, projects, skills). Edit this to update the site.
 - `src/pages/`: the homepage, privacy page and 404.
+- `src/scripts/keyboard3d.ts`: the three.js keyboard scene on the homepage; `src/scripts/home.ts` wires keys to the section panels. Without WebGL or with reduced motion the homepage falls back to a plain scrolling page.
 - `src/styles/global.css`: styles; light and dark mode follow the system setting.
 
 ```sh
