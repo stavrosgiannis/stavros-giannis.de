@@ -253,7 +253,7 @@ export function createKeyboard(canvas: HTMLCanvasElement, opts: Options): Keyboa
   const bigGeo = keycapGeometry(1.8, 1.8, 0.95, 0.2);
   const bigFace = new THREE.PlaneGeometry(1.3, 1.3);
   const bigKeys: BigKey[] = sections.map((s, i) => {
-    const accent = s.id === "contact";
+    const accent = false;
     const color = accent ? COLORS.accent : COLORS.alpha;
     const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.45, metalness: 0.03, emissive: COLORS.accent, emissiveIntensity: 0 });
     const group = new THREE.Group();
