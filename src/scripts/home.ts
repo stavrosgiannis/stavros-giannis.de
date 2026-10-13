@@ -15,7 +15,23 @@ function hasWebGL(): boolean {
   }
 }
 
+function setupCopy(): void {
+  document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((btn) => {
+    const label = btn.querySelector<HTMLElement>("[data-copy-label]");
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy ?? "");
+        if (label) label.textContent = "Copied";
+      } catch {
+        if (label) label.textContent = "Copy failed";
+      }
+      setTimeout(() => label && (label.textContent = "Copy"), 1800);
+    });
+  });
+}
+
 export function setupHome(): void {
+  setupCopy();
   const root = document.documentElement;
   const canvas = document.getElementById("scene") as HTMLCanvasElement | null;
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;

@@ -10,8 +10,8 @@ export const site = {
   intro:
     "I build secure, scalable platforms on Azure and .NET. Currently a senior software engineer at KPMG Deutschland, with a background in cyber security and ISO 27001 auditing.",
   links: [
-    { label: "GitHub", href: "https://github.com/stavrosgiannis" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/stavros-giannis-76818719b/" },
+    { label: "GitHub", handle: "@stavrosgiannis", href: "https://github.com/stavrosgiannis", icon: "github" },
+    { label: "LinkedIn", handle: "in/stavros-giannis", href: "https://www.linkedin.com/in/stavros-giannis-76818719b/", icon: "linkedin" },
   ],
 };
 
