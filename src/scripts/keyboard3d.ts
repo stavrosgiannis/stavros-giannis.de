@@ -1,6 +1,6 @@
-// The 3D keyboard: a board of small keys, with one big key per section that
-// launches out of its socket and floats above the board. Clicking a big key
-// selects its section.
+// The 3D keyboard: a 60% mechanical keyboard with sculpted keycaps. The
+// section keys (A, E, W, S, C) launch out of their switches and float above
+// the board; clicking one selects its section.
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 import { sections, type SectionId } from "../data/site";
@@ -12,17 +12,42 @@ export type KeyboardScene = {
 
 type Options = { onSelect(id: SectionId | null): void };
 
-const PITCH = 1.05; // distance between small keys
-const ROWS = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
-const ROW_OFFSET = [0, 0.3, 0.8];
+type Kind = "alpha" | "mod" | "accent";
+type KeyDef = { label: string; w: number; kind?: Kind; legend?: string };
+
+const U = 1; // one key unit
+const CAP_H = 0.42;
 const COLORS = {
   bg: 0x07090d,
-  board: 0x161a22,
-  key: 0x262c37,
-  legend: "#8b93a3",
-  cap: 0xe9e5db,
-  capText: "#151a22",
+  case: 0x1c2029,
+  plate: 0x0c0f14,
+  housing: 0x2a2f38,
+  alpha: 0xd8d4cb,
+  alphaText: "#2b3038",
+  mod: 0x4a505c,
+  modText: "#e4e6ea",
   accent: 0x2dd4bf,
+  accentText: "#0b2a27",
+  cable: 0x15181f,
+};
+
+const k = (label: string, w = 1, kind: Kind = "alpha", legend?: string): KeyDef => ({ label, w, kind, legend });
+const alphas = (s: string) => [...s].map((c) => k(c));
+
+// Standard ANSI 60% layout, 15u per row.
+const LAYOUT: KeyDef[][] = [
+  [k("Esc", 1, "accent"), ...alphas("1234567890-="), k("Backspace", 2, "mod", "⌫")],
+  [k("Tab", 1.5, "mod"), ...alphas("QWERTYUIOP[]"), k("\\", 1.5)],
+  [k("Caps", 1.75, "mod"), ...alphas("ASDFGHJKL;'"), k("Enter", 2.25, "accent")],
+  [k("Shift", 2.25, "mod"), ...alphas("ZXCVBNM,./"), k("Shift", 2.75, "mod")],
+  [k("Ctrl", 1.25, "mod"), k("Win", 1.25, "mod"), k("Alt", 1.25, "mod"), k("", 6.25), k("Alt", 1.25, "mod"), k("Fn", 1.25, "mod"), k("Menu", 1.25, "mod"), k("Ctrl", 1.25, "mod")],
+];
+const ROW_TILT = [-0.12, -0.06, 0, 0.06, 0.1]; // OEM-style row sculpt
+
+const KIND_STYLE: Record<Kind, { color: number; text: string }> = {
+  alpha: { color: COLORS.alpha, text: COLORS.alphaText },
+  mod: { color: COLORS.mod, text: COLORS.modText },
+  accent: { color: COLORS.accent, text: COLORS.accentText },
 };
 
 type BigKey = {
@@ -38,25 +63,48 @@ type BigKey = {
 };
 
 const ease = (t: number) => 1 - Math.pow(1 - Math.min(Math.max(t, 0), 1), 3);
+const hex = (n: number) => `#${n.toString(16).padStart(6, "0")}`;
 
-function legendTexture(letter: string, label: string | null, bg: string, fg: string): THREE.CanvasTexture {
-  const size = label ? 512 : 128;
+/** Rounded box whose top is pulled in, like a sculpted keycap. */
+function keycapGeometry(w: number, d: number, h: number, inset: number): THREE.BufferGeometry {
+  const g = new RoundedBoxGeometry(w, h, d, 3, Math.min(0.09, h / 3));
+  const pos = g.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    const t = (pos.getY(i) + h / 2) / h; // 0 bottom .. 1 top
+    const x = pos.getX(i);
+    const z = pos.getZ(i);
+    pos.setX(i, x - Math.sign(x) * inset * t);
+    pos.setZ(i, z - Math.sign(z) * inset * t);
+  }
+  g.computeVertexNormals();
+  return g;
+}
+
+function legendTexture(text: string, aspect: number, bg: string, fg: string, sub?: string): THREE.CanvasTexture {
+  const px = 128;
   const c = document.createElement("canvas");
-  c.width = c.height = size;
+  c.width = Math.round(px * aspect);
+  c.height = px;
   const g = c.getContext("2d")!;
   g.fillStyle = bg;
-  g.fillRect(0, 0, size, size);
+  g.fillRect(0, 0, c.width, c.height);
   g.fillStyle = fg;
-  g.textBaseline = "top";
-  if (label) {
-    g.font = "700 230px ui-monospace, Menlo, Consolas, monospace";
-    g.fillText(letter, 52, 40);
-    g.font = "600 64px ui-sans-serif, system-ui, sans-serif";
+  if (sub !== undefined) {
+    // big section key: letter + label
+    g.font = "700 62px ui-monospace, Menlo, Consolas, monospace";
+    g.textBaseline = "top";
+    g.fillText(text, 14, 10);
+    g.font = "600 17px ui-sans-serif, system-ui, sans-serif";
     g.textBaseline = "alphabetic";
-    g.fillText(label.toUpperCase(), 56, size - 64);
+    g.fillText(sub.toUpperCase(), 15, px - 14);
+  } else if (text.length <= 1 || text === "⌫") {
+    g.font = "600 54px ui-sans-serif, system-ui, sans-serif";
+    g.textBaseline = "top";
+    g.fillText(text, 16, 12);
   } else {
-    g.font = "600 44px ui-monospace, Menlo, Consolas, monospace";
-    g.fillText(letter, 20, 16);
+    g.font = "600 32px ui-sans-serif, system-ui, sans-serif";
+    g.textBaseline = "alphabetic";
+    g.fillText(text.toLowerCase(), 14, px - 18);
   }
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
@@ -64,132 +112,176 @@ function legendTexture(letter: string, label: string | null, bg: string, fg: str
   return t;
 }
 
-const hex = (n: number) => `#${n.toString(16).padStart(6, "0")}`;
-
 export function createKeyboard(canvas: HTMLCanvasElement, opts: Options): KeyboardScene {
-  const mobile = matchMedia("(pointer: coarse)").matches;
+  const touch = matchMedia("(pointer: coarse)").matches;
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1.5 : 2));
+  renderer.setPixelRatio(Math.min(devicePixelRatio, touch ? 1.5 : 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.shadowMap.enabled = !mobile;
+  renderer.shadowMap.enabled = !touch;
   renderer.shadowMap.type = THREE.PCFShadowMap;
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(COLORS.bg);
   scene.fog = new THREE.Fog(COLORS.bg, 18, 42);
 
-  const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+  const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 100);
 
   // Lights
-  scene.add(new THREE.HemisphereLight(0xbfd4ff, 0x0b0d12, 0.9));
-  const sun = new THREE.DirectionalLight(0xffffff, 2.2);
-  sun.position.set(-5, 12, 6);
+  scene.add(new THREE.HemisphereLight(0xc8d8ff, 0x0b0d12, 1.0));
+  const sun = new THREE.DirectionalLight(0xffffff, 2.4);
+  sun.position.set(-5, 12, 7);
   sun.castShadow = true;
-  sun.shadow.mapSize.set(1024, 1024);
-  Object.assign(sun.shadow.camera, { left: -10, right: 10, top: 8, bottom: -8, near: 1, far: 30 });
-  sun.shadow.bias = -0.0005;
+  sun.shadow.mapSize.set(2048, 1024);
+  Object.assign(sun.shadow.camera, { left: -11, right: 11, top: 8, bottom: -8, near: 1, far: 30 });
+  sun.shadow.bias = -0.0004;
   scene.add(sun);
-  const rimTeal = new THREE.PointLight(COLORS.accent, 40, 20);
-  rimTeal.position.set(6, 3, -3);
-  const rimViolet = new THREE.PointLight(0x8b5cf6, 30, 20);
-  rimViolet.position.set(-7, 2.5, -2);
+  const rimTeal = new THREE.PointLight(COLORS.accent, 45, 22);
+  rimTeal.position.set(8, 3, -3.5);
+  const rimViolet = new THREE.PointLight(0x8b5cf6, 35, 22);
+  rimViolet.position.set(-9, 2.5, -3);
   scene.add(rimTeal, rimViolet);
 
-  // Floor grid for depth
-  const grid = new THREE.GridHelper(80, 80, 0x1b2230, 0x121722);
-  grid.position.y = -0.6;
+  const grid = new THREE.GridHelper(90, 90, 0x1b2230, 0x121722);
+  grid.position.y = -0.7;
   scene.add(grid);
 
-  // Board
+  // Case and plate
   const keyboard = new THREE.Group();
+  keyboard.rotation.x = 0.06; // typing angle
   scene.add(keyboard);
-  const boardW = 10 * PITCH + 1.1;
-  const boardD = 4 * PITCH + 0.9;
-  const board = new THREE.Mesh(
-    new RoundedBoxGeometry(boardW, 0.6, boardD, 4, 0.25),
-    new THREE.MeshStandardMaterial({ color: COLORS.board, metalness: 0.7, roughness: 0.35 }),
+  const rows = LAYOUT.length;
+  const boardW = 15 * U + 0.7;
+  const boardD = rows * U + 0.7;
+  const caseMesh = new THREE.Mesh(
+    new RoundedBoxGeometry(boardW, 0.8, boardD, 5, 0.3),
+    new THREE.MeshStandardMaterial({ color: COLORS.case, metalness: 0.75, roughness: 0.32 }),
   );
-  board.receiveShadow = true;
-  keyboard.add(board);
+  caseMesh.receiveShadow = caseMesh.castShadow = true;
+  keyboard.add(caseMesh);
+  const plate = new THREE.Mesh(
+    new THREE.BoxGeometry(15 * U + 0.06, 0.05, rows * U + 0.06),
+    new THREE.MeshStandardMaterial({ color: COLORS.plate, roughness: 0.9 }),
+  );
+  plate.position.y = 0.38;
+  plate.receiveShadow = true;
+  keyboard.add(plate);
 
-  // Small keys, with sockets left where the big keys sit
+  // USB cable out of the back
+  const cable = new THREE.Mesh(
+    new THREE.TubeGeometry(
+      new THREE.CatmullRomCurve3([
+        new THREE.Vector3(-3, 0.1, -boardD / 2),
+        new THREE.Vector3(-3, -0.25, -boardD / 2 - 0.9),
+        new THREE.Vector3(-2.4, -0.6, -boardD / 2 - 2.4),
+        new THREE.Vector3(0.5, -0.61, -boardD / 2 - 4.5),
+        new THREE.Vector3(6, -0.61, -boardD / 2 - 6),
+      ]),
+      64,
+      0.09,
+      10,
+    ),
+    new THREE.MeshStandardMaterial({ color: COLORS.cable, roughness: 0.6 }),
+  );
+  keyboard.add(cable);
+
+  // Keys
   const bigLetters = new Map<string, SectionId>(sections.map((s) => [s.key, s.id]));
   const sockets = new Map<SectionId, THREE.Vector3>();
-  const smallGeo = new RoundedBoxGeometry(0.88, 0.42, 0.88, 3, 0.1);
-  const smallMat = new THREE.MeshStandardMaterial({ color: COLORS.key, roughness: 0.6, metalness: 0.1 });
-  const legendGeo = new THREE.PlaneGeometry(0.72, 0.72);
-  const socketGeo = new THREE.PlaneGeometry(0.8, 0.8);
-  const socketMat = new THREE.MeshBasicMaterial({ color: COLORS.accent, transparent: true, opacity: 0.35 });
-  const rowZ = (r: number) => -boardD / 2 + 0.45 + PITCH * (r + 0.5);
+  const geoCache = new Map<number, THREE.BufferGeometry>();
+  const capGeo = (w: number) => {
+    if (!geoCache.has(w)) geoCache.set(w, keycapGeometry(w * U - 0.1, U - 0.1, CAP_H, 0.09));
+    return geoCache.get(w)!;
+  };
+  const matCache = new Map<Kind, THREE.MeshStandardMaterial>();
+  const capMat = (kind: Kind) => {
+    if (!matCache.has(kind))
+      matCache.set(kind, new THREE.MeshStandardMaterial({ color: KIND_STYLE[kind].color, roughness: 0.55, metalness: 0.02 }));
+    return matCache.get(kind)!;
+  };
+  const housingGeo = new THREE.BoxGeometry(0.62, 0.22, 0.62);
+  const housingMat = new THREE.MeshStandardMaterial({ color: COLORS.housing, roughness: 0.5 });
+  const stemMat = new THREE.MeshStandardMaterial({ color: COLORS.accent, emissive: COLORS.accent, emissiveIntensity: 0.9 });
+  const stemA = new THREE.BoxGeometry(0.26, 0.16, 0.07);
+  const stemB = new THREE.BoxGeometry(0.07, 0.16, 0.26);
+  const capTop = 0.4 + CAP_H / 2 + 0.1;
 
-  ROWS.forEach((row, r) => {
-    [...row].forEach((letter, i) => {
-      const x = -boardW / 2 + 0.55 + PITCH * (i + 0.5) + ROW_OFFSET[r];
-      const z = rowZ(r);
-      const big = bigLetters.get(letter);
+  LAYOUT.forEach((row, r) => {
+    let x = (-15 * U) / 2;
+    const z = (-rows / 2 + r + 0.5) * U;
+    row.forEach((def) => {
+      const cx = x + (def.w * U) / 2;
+      x += def.w * U;
+      const big = def.w === 1 ? bigLetters.get(def.label) : undefined;
       if (big) {
-        sockets.set(big, new THREE.Vector3(x, 0.32, z));
-        const glow = new THREE.Mesh(socketGeo, socketMat);
-        glow.rotation.x = -Math.PI / 2;
-        glow.position.set(x, 0.305, z);
-        keyboard.add(glow);
+        // Exposed switch where the section key launched from
+        sockets.set(big, new THREE.Vector3(cx, capTop, z));
+        const housing = new THREE.Mesh(housingGeo, housingMat);
+        housing.position.set(cx, 0.51, z);
+        const s1 = new THREE.Mesh(stemA, stemMat);
+        const s2 = new THREE.Mesh(stemB, stemMat);
+        s1.position.set(cx, 0.68, z);
+        s2.position.copy(s1.position);
+        keyboard.add(housing, s1, s2);
         return;
       }
-      const key = new THREE.Mesh(smallGeo, smallMat);
-      key.position.set(x, 0.45, z);
-      key.castShadow = key.receiveShadow = true;
-      const legend = new THREE.Mesh(
-        legendGeo,
-        new THREE.MeshStandardMaterial({ map: legendTexture(letter, null, hex(COLORS.key), COLORS.legend), roughness: 0.6 }),
-      );
-      legend.rotation.x = -Math.PI / 2;
-      legend.position.y = 0.211;
-      key.add(legend);
-      keyboard.add(key);
+      const kind = def.kind ?? "alpha";
+      const cap = new THREE.Mesh(capGeo(def.w), capMat(kind));
+      cap.position.set(cx, capTop, z);
+      cap.rotation.x = ROW_TILT[r];
+      cap.castShadow = cap.receiveShadow = true;
+      const legendText = def.legend ?? def.label;
+      if (legendText) {
+        const faceW = def.w * U - 0.36;
+        const faceD = U - 0.36;
+        const face = new THREE.Mesh(
+          new THREE.PlaneGeometry(faceW, faceD),
+          new THREE.MeshStandardMaterial({
+            map: legendTexture(legendText, faceW / faceD, hex(KIND_STYLE[kind].color), KIND_STYLE[kind].text),
+            roughness: 0.55,
+          }),
+        );
+        face.rotation.x = -Math.PI / 2;
+        face.position.y = CAP_H / 2 + 0.002;
+        cap.add(face);
+      }
+      keyboard.add(cap);
     });
   });
 
-  // Space bar
-  const space = new THREE.Mesh(new RoundedBoxGeometry(PITCH * 5.5, 0.42, 0.88, 3, 0.1), smallMat);
-  space.position.set(0.4, 0.45, rowZ(3));
-  space.castShadow = space.receiveShadow = true;
-  keyboard.add(space);
-
-  // Big keys
-  const capGeo = new RoundedBoxGeometry(1.7, 0.9, 1.7, 4, 0.2);
-  const topGeo = new RoundedBoxGeometry(1.36, 0.14, 1.36, 3, 0.06);
-  const faceGeo = new THREE.PlaneGeometry(1.2, 1.2);
+  // Big section keys: the same sculpted cap, scaled up when airborne
+  const bigGeo = keycapGeometry(1.8, 1.8, 0.95, 0.2);
+  const bigFace = new THREE.PlaneGeometry(1.3, 1.3);
   const bigKeys: BigKey[] = sections.map((s, i) => {
     const accent = s.id === "contact";
-    const capColor = accent ? COLORS.accent : COLORS.cap;
-    const mat = new THREE.MeshStandardMaterial({ color: capColor, roughness: 0.45, metalness: 0.05, emissive: COLORS.accent, emissiveIntensity: 0 });
+    const color = accent ? COLORS.accent : COLORS.alpha;
+    const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.45, metalness: 0.03, emissive: COLORS.accent, emissiveIntensity: 0 });
     const group = new THREE.Group();
-    const body = new THREE.Mesh(capGeo, mat);
+    const body = new THREE.Mesh(bigGeo, mat);
     body.castShadow = true;
-    const top = new THREE.Mesh(topGeo, mat);
-    top.position.y = 0.48;
     const face = new THREE.Mesh(
-      faceGeo,
-      new THREE.MeshStandardMaterial({ map: legendTexture(s.key, s.label, hex(capColor), COLORS.capText), roughness: 0.5 }),
+      bigFace,
+      new THREE.MeshStandardMaterial({
+        map: legendTexture(s.key, 1, hex(color), accent ? COLORS.accentText : COLORS.alphaText, s.label),
+        roughness: 0.5,
+      }),
     );
     face.rotation.x = -Math.PI / 2;
-    face.position.y = 0.552;
-    group.add(body, top, face);
-    group.userData.id = s.id;
-    body.userData.id = top.userData.id = face.userData.id = s.id;
-    const socket = sockets.get(s.id)!.clone();
-    group.position.copy(socket);
-    group.scale.setScalar(0.52);
+    face.position.y = 0.477;
+    group.add(body, face);
+    body.userData.id = face.userData.id = s.id;
+    group.position.copy(sockets.get(s.id)!);
+    group.scale.setScalar(0.5);
     keyboard.add(group);
+    const socket = sockets.get(s.id)!.clone();
     return { id: s.id, group, body, socket, home: new THREE.Vector3(), phase: i * 1.3, launch: 0, pressT: 9, hover: 0 };
   });
 
   // Dust
-  const dustCount = mobile ? 150 : 350;
+  const dustCount = touch ? 150 : 350;
   const dustPos = new Float32Array(dustCount * 3);
   for (let i = 0; i < dustCount; i++) {
-    dustPos[i * 3] = (Math.random() - 0.5) * 40;
+    dustPos[i * 3] = (Math.random() - 0.5) * 44;
     dustPos[i * 3 + 1] = Math.random() * 14 - 1;
     dustPos[i * 3 + 2] = (Math.random() - 0.5) * 30;
   }
@@ -211,25 +303,23 @@ export function createKeyboard(canvas: HTMLCanvasElement, opts: Options): Keyboa
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     narrow = camera.aspect < 0.9;
-    const span = narrow ? 9 : 15; // world width we want in view
+    const span = narrow ? 10.5 : 18; // world width we want in view
     const hfov = 2 * Math.atan(Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.aspect);
-    const dist = Math.max(narrow ? 13 : 14, span / 2 / Math.tan(hfov / 2) + 3);
+    const dist = Math.max(14, span / 2 / Math.tan(hfov / 2) + 3);
     baseCam.set(0, dist * 0.62, dist * 0.8);
-    baseLook.set(0, narrow ? 0.8 : 1.4, 0);
+    baseLook.set(0, narrow ? 0.8 : 1.3, 0);
     const fog = scene.fog as THREE.Fog;
     fog.near = dist * 1.1;
     fog.far = dist * 2.6;
     camera.updateProjectionMatrix();
 
     bigKeys.forEach((k, i) => {
-      const n = bigKeys.length;
-      const t = i / (n - 1) - 0.5; // -0.5..0.5
+      const t = i / (bigKeys.length - 1) - 0.5; // -0.5..0.5
       if (narrow) {
-        // two staggered rows so the keys stay big on phones
-        const row = i % 2;
-        k.home.set(t * 5.2, 4.2 - row * 1.7, 0.8 + row * 0.6);
+        const row = i % 2; // two staggered rows keep the keys big on phones
+        k.home.set(t * 5.4, 4.4 - row * 1.8, 1 + row * 0.6);
       } else {
-        k.home.set(t * 12, 2.6 + Math.cos(t * Math.PI) * 0.9, 1.1 - Math.abs(t) * 1.6);
+        k.home.set(t * 13, 2.8 + Math.cos(t * Math.PI) * 0.9, 1.4 - Math.abs(t) * 1.6);
       }
     });
   }
@@ -240,7 +330,7 @@ export function createKeyboard(canvas: HTMLCanvasElement, opts: Options): Keyboa
   const parallax = new THREE.Vector2(0, 0);
   let hovered: SectionId | null = null;
   let selected: SectionId | null = null;
-  let downAt: { x: number; y: number } | null = null;
+  let down: { id: number; x: number; y: number } | null = null;
 
   function pick(clientX: number, clientY: number): SectionId | null {
     const r = canvas.getBoundingClientRect();
@@ -254,20 +344,29 @@ export function createKeyboard(canvas: HTMLCanvasElement, opts: Options): Keyboa
     if (e.pointerType === "mouse") {
       hovered = pick(e.clientX, e.clientY);
       canvas.style.cursor = hovered ? "pointer" : "";
+      parallax.set((e.clientX / innerWidth) * 2 - 1, (e.clientY / innerHeight) * 2 - 1);
     }
-    parallax.set((e.clientX / innerWidth) * 2 - 1, (e.clientY / innerHeight) * 2 - 1);
   });
   canvas.addEventListener("pointerleave", () => {
     hovered = null;
     canvas.style.cursor = "";
   });
-  canvas.addEventListener("pointerdown", (e) => (downAt = { x: e.clientX, y: e.clientY }));
+  canvas.addEventListener("pointerdown", (e) => {
+    if (e.isPrimary) down = { id: e.pointerId, x: e.clientX, y: e.clientY };
+  });
+  canvas.addEventListener("pointercancel", () => (down = null));
   canvas.addEventListener("pointerup", (e) => {
-    if (!downAt || Math.hypot(e.clientX - downAt.x, e.clientY - downAt.y) > 8) return;
-    downAt = null;
+    const start = down;
+    down = null;
+    if (!start || start.id !== e.pointerId || Math.hypot(e.clientX - start.x, e.clientY - start.y) > 10) return;
     const id = pick(e.clientX, e.clientY);
-    if (id) press(id);
-    opts.onSelect(id);
+    if (id) {
+      press(id);
+      opts.onSelect(id);
+    } else if (e.pointerType === "mouse") {
+      // Clicking empty space closes; on touch screens a stray tap shouldn't.
+      opts.onSelect(null);
+    }
   });
 
   function press(id: SectionId): void {
@@ -278,13 +377,14 @@ export function createKeyboard(canvas: HTMLCanvasElement, opts: Options): Keyboa
   // Loop
   const timer = new THREE.Timer();
   const tmp = new THREE.Vector3();
-  let started = 0;
+  const cameraLook = baseLook.clone();
+  let started = -1;
 
   function frame(): void {
     timer.update();
     const dt = Math.min(timer.getDelta(), 0.05);
     const t = timer.getElapsed();
-    if (!started) started = t;
+    if (started < 0) started = t;
     const intro = t - started;
 
     bigKeys.forEach((k, i) => {
@@ -299,14 +399,11 @@ export function createKeyboard(canvas: HTMLCanvasElement, opts: Options): Keyboa
       tmp.y += bob + dip + k.hover * 0.35 + Math.sin(k.launch * Math.PI) * 1.2;
       k.group.position.copy(tmp);
 
-      const scale = THREE.MathUtils.lerp(0.52, 1, k.launch) * (1 + k.hover * 0.08);
-      k.group.scale.setScalar(scale);
+      k.group.scale.setScalar(THREE.MathUtils.lerp(0.5, 1, k.launch) * (1 + k.hover * 0.08));
       k.group.rotation.x = Math.sin(t * 0.9 + k.phase) * 0.12 * k.launch + 0.25 * k.launch;
       k.group.rotation.z = Math.cos(t * 0.7 + k.phase) * 0.1 * k.launch;
       k.group.rotation.y = (1 - k.launch) * Math.PI * 2 + (isSel ? Math.sin(t * 1.5) * 0.25 : 0);
-
-      const mat = k.body.material as THREE.MeshStandardMaterial;
-      mat.emissiveIntensity = k.hover * 0.35;
+      (k.body.material as THREE.MeshStandardMaterial).emissiveIntensity = k.hover * 0.35;
     });
 
     // Camera: idle sway, pointer parallax, and fly to the selected key
@@ -323,19 +420,18 @@ export function createKeyboard(canvas: HTMLCanvasElement, opts: Options): Keyboa
     }
     camPos.x += parallax.x * 0.8;
     camPos.y -= parallax.y * 0.5;
-    const k = Math.min(1, dt * 2.5);
-    camera.position.lerp(camPos, k);
-    cameraLook.lerp(camLook, k);
+    const follow = Math.min(1, dt * 2.5);
+    camera.position.lerp(camPos, follow);
+    cameraLook.lerp(camLook, follow);
     camera.lookAt(cameraLook);
 
     keyboard.rotation.y = Math.sin(t * 0.2) * 0.05;
     dust.rotation.y = t * 0.01;
-    socketMat.opacity = 0.25 + Math.sin(t * 2) * 0.1;
+    stemMat.emissiveIntensity = 0.7 + Math.sin(t * 2) * 0.3;
 
     renderer.render(scene, camera);
   }
 
-  const cameraLook = baseLook.clone();
   layout();
   camera.position.copy(baseCam).add(new THREE.Vector3(0, 4, 6));
   new ResizeObserver(layout).observe(canvas);
