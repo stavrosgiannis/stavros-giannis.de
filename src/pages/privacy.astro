@@ -1,0 +1,31 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../data/site";
+---
+
+<Base title="Privacy" description="Privacy policy for stavros-giannis.de">
+  <article class="prose">
+    <h1>Privacy</h1>
+    <p>This is a private, non-commercial website. It uses no cookies, no analytics, no tracking and no third-party content.</p>
+
+    <h2>Controller</h2>
+    <p>{site.name}, {site.location}. Email: <a href={`mailto:${site.email}`}>{site.email}</a></p>
+
+    <h2>Server logs</h2>
+    <p>
+      When you visit this site, the web server processes your IP address, the requested page, date and time,
+      referrer and browser user agent. This is needed to deliver the site and keep it secure
+      (Art. 6(1)(f) GDPR). Logs are not combined with other data and are deleted after a short period.
+    </p>
+
+    <h2>Email</h2>
+    <p>If you email me, I use your address and message only to reply (Art. 6(1)(b) and (f) GDPR).</p>
+
+    <h2>Your rights</h2>
+    <p>
+      You have the right to access, rectification, erasure, restriction of processing, objection and data
+      portability, and the right to lodge a complaint with a supervisory authority, for example the
+      Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen.
+    </p>
+  </article>
+</Base>
