@@ -27,6 +27,7 @@ export function setupHome(): void {
   let scene: KeyboardScene | null = null;
   let current: SectionId | null = null;
   let returnFocus: HTMLElement | null = null;
+  let openedAt = 0;
   const navLinks = document.querySelectorAll<HTMLAnchorElement>(".keynav a");
   const markNav = () =>
     navLinks.forEach((a) => a.setAttribute("aria-current", String(a.dataset.section === current)));
@@ -36,6 +37,7 @@ export function setupHome(): void {
     if (!current) returnFocus = document.activeElement as HTMLElement | null;
     if (current) panels.get(current)?.classList.remove("open");
     current = id;
+    openedAt = performance.now();
     const panel = panels.get(id)!;
     panel.classList.add("open");
     panel.scrollTop = 0;
@@ -88,7 +90,13 @@ export function setupHome(): void {
   import("./keyboard3d")
     .then(({ createKeyboard }) => {
       scene = createKeyboard(canvas, {
-        onSelect: (id) => (id === null ? close() : current === id ? close() : open(id)),
+        onSelect: (id) => {
+          // A tap can be reported twice on some phones; don't let the echo
+          // close the panel it just opened.
+          if (performance.now() - openedAt < 500) return id && id !== current ? open(id) : undefined;
+          if (id === null || current === id) close();
+          else open(id);
+        },
       });
       if (current) scene.select(current);
       root.classList.add("scene-ready");

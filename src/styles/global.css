@@ -193,7 +193,7 @@ kbd {
   .is-3d .keynav a span { color: var(--muted); }
   .is-3d .hud-hint { bottom: 6.2rem; }
   .is-3d .hud-foot { display: none; }
-  .is-3d .panel { top: auto; left: 0.5rem; right: 0.5rem; bottom: 0.5rem; width: auto; max-height: 68vh; padding: 1.75rem 1.25rem; transform: translateY(calc(100% + 1rem)); }
+  .is-3d .panel { background: rgba(12, 15, 21, 0.94); top: auto; left: 0.5rem; right: 0.5rem; bottom: 0.5rem; width: auto; max-height: 68vh; padding: 1.75rem 1.25rem; transform: translateY(calc(100% + 1rem)); }
 }
 
 .hint-touch { display: none; }
