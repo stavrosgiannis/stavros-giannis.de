@@ -203,8 +203,8 @@ kbd {
 }
 
 /* Contact panel */
-.about-contact { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--line); }
-.about-contact .mailcard { margin-top: 1.25rem; }
+.contact-title { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.03em; text-transform: none; font-family: var(--sans); color: var(--text); margin: 0.2rem 0 0.6rem; }
+.contact .eyebrow { margin-bottom: 0; }
 
 .keycap {
   display: inline-flex; align-items: center; gap: 0.45rem;
@@ -247,4 +247,7 @@ kbd {
 
 .contact-foot { display: flex; justify-content: space-between; gap: 1rem; margin: 2rem 0 0; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 0.85rem; color: var(--muted); }
 .contact-foot a { color: var(--muted); }
+.is-3d .contact.open { display: flex; flex-direction: column; }
+.is-3d .contact .contact-foot { margin-top: auto; }
+.is-3d .contact .linkrows { margin-bottom: 2rem; }
 .is-3d .panel:focus { outline: none; }

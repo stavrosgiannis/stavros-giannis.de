@@ -41,51 +41,6 @@ import { site, highlights, experience, projects, skills, sections } from "../dat
           </div>
         ))}
       </div>
-
-      <div class="about-contact">
-        <h2>Get in touch</h2>
-        <p class="muted">Email is the fastest way to reach me. My full CV is available on request.</p>
-        <div class="mailcard">
-          <span class="mailcard-label">Email</span>
-          <a class="mailcard-address" href={`mailto:${site.email}`}>{site.email}</a>
-          <div class="mailcard-actions">
-            <a class="keycap keycap-accent" href={`mailto:${site.email}`}>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-11Zm2 .6V17h14V7.1l-7 5.2-7-5.2ZM6.6 7l5.4 4 5.4-4H6.6Z"/></svg>
-              Write
-            </a>
-            <button class="keycap" type="button" data-copy={site.email}>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11h-2V5H8V3Zm-3 4h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Zm0 2v10h10V9H5Z"/></svg>
-              <span data-copy-label>Copy</span>
-            </button>
-          </div>
-        </div>
-
-        <ul class="linkrows">
-          {site.links.map((l) => (
-            <li>
-              <a class="linkrow" href={l.href} rel="me noopener" target="_blank">
-                <span class="linkrow-icon" aria-hidden="true">
-                  {l.icon === "github" ? (
-                    <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
-                  ) : (
-                    <svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4V21H3V9.75Zm6.5 0h3.8v1.54h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.65 4.77 6.1V21h-4v-4.97c0-1.19-.02-2.71-1.65-2.71-1.66 0-1.91 1.29-1.91 2.63V21h-4V9.75Z"/></svg>
-                  )}
-                </span>
-                <span class="linkrow-text">
-                  <span class="linkrow-label">{l.label}</span>
-                  <span class="linkrow-handle">{l.handle}</span>
-                </span>
-                <span class="linkrow-arrow" aria-hidden="true">↗</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <p class="contact-foot">
-          <span>{site.location}</span>
-          <a href="/privacy">Privacy</a>
-        </p>
-      </div>
     </section>
 
     <section id="experience" class="panel" aria-labelledby="experience-h">
@@ -126,6 +81,53 @@ import { site, highlights, experience, projects, skills, sections } from "../dat
       </dl>
     </section>
 
+    <section id="contact" class="panel contact" aria-labelledby="contact-h">
+      <button class="panel-close" type="button" aria-label="Close">Esc</button>
+      <p class="eyebrow">Contact</p>
+      <h2 id="contact-h" class="contact-title" tabindex="-1">Let's talk.</h2>
+      <p class="muted">Email is the fastest way to reach me. My full CV is available on request.</p>
+
+      <div class="mailcard">
+        <span class="mailcard-label">Email</span>
+        <a class="mailcard-address" href={`mailto:${site.email}`}>{site.email}</a>
+        <div class="mailcard-actions">
+          <a class="keycap keycap-accent" href={`mailto:${site.email}`}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-11Zm2 .6V17h14V7.1l-7 5.2-7-5.2ZM6.6 7l5.4 4 5.4-4H6.6Z"/></svg>
+            Write
+          </a>
+          <button class="keycap" type="button" data-copy={site.email}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11h-2V5H8V3Zm-3 4h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Zm0 2v10h10V9H5Z"/></svg>
+            <span data-copy-label>Copy</span>
+          </button>
+        </div>
+      </div>
+
+      <ul class="linkrows">
+        {site.links.map((l) => (
+          <li>
+            <a class="linkrow" href={l.href} rel="me noopener" target="_blank">
+              <span class="linkrow-icon" aria-hidden="true">
+                {l.icon === "github" ? (
+                  <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+                ) : (
+                  <svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4V21H3V9.75Zm6.5 0h3.8v1.54h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.65 4.77 6.1V21h-4v-4.97c0-1.19-.02-2.71-1.65-2.71-1.66 0-1.91 1.29-1.91 2.63V21h-4V9.75Z"/></svg>
+                )}
+              </span>
+              <span class="linkrow-text">
+                <span class="linkrow-label">{l.label}</span>
+                <span class="linkrow-handle">{l.handle}</span>
+              </span>
+              <span class="linkrow-arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <p class="contact-foot">
+        <span>{site.location}</span>
+        <a href="/privacy">Privacy</a>
+      </p>
+    </section>
   </div>
 
   <footer class="hud-foot">
