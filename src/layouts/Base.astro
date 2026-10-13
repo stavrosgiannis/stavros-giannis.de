@@ -5,9 +5,11 @@ import { site } from "../data/site";
 interface Props {
   title?: string;
   description?: string;
+  /** Full-screen page that brings its own chrome (the 3D homepage). */
+  immersive?: boolean;
 }
 
-const { title, description = site.description } = Astro.props;
+const { title, description = site.description, immersive = false } = Astro.props;
 const fullTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.role}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL("/og-image.png", Astro.site);
@@ -24,7 +26,7 @@ const year = new Date().getFullYear();
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content={immersive ? "dark" : "light dark"} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
     <meta property="og:title" content={fullTitle} />
@@ -41,7 +43,8 @@ const year = new Date().getFullYear();
       sameAs: site.links.map((l) => l.href),
     })} />
   </head>
-  <body>
+  <body class={immersive ? "immersive" : undefined}>
+    {immersive ? <slot /> : <>
     <header class="wrap top">
       <a href="/" class="mark" aria-label="Home">SG</a>
       <nav aria-label="Main">
@@ -57,5 +60,6 @@ const year = new Date().getFullYear();
       <span>© {year} {site.name}</span>
       <a href="/privacy">Privacy</a>
     </footer>
+    </>}
   </body>
 </html>
